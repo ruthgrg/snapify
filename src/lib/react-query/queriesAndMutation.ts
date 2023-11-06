@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 
-import { createUserAccount, signInAccount } from '../appwrite/api'
+import { createUserAccount, signInAccount, signOutAccount } from '../appwrite/api'
 import { INewUser } from '@/types'
 
 export const userCreateAccountMutation = () => {
@@ -13,5 +13,11 @@ export const userCreateAccountMutation = () => {
 export const userSigninMutation = () => {
     return useMutation({
         mutationFn: (user: { email: string, password: string }) => signInAccount(user)
+    })
+}
+
+export const useSignOutMutation = () => {
+    return useMutation({
+        mutationFn: signOutAccount
     })
 }
