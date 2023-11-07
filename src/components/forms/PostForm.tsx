@@ -13,37 +13,50 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import FileUploader from "../ui/shared/FileUploader";
+import { postValidation } from "@/lib/validation";
+import { Models } from "appwrite";
+import { useUserContext } from "@/context/AuthContext";
+import { useCreatePostMutation } from "@/lib/react-query/queriesAndMutation";
+import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
-const formSchema = z.object({
-  caption: z.string().min(2, {
-    message: "Caption must be at least 2 characters.",
-  }),
-  file: z.string().min(1, {
-    message: "Atleast one file must be added",
-  }),
-  location: z
-    .string()
-    .max(10, { message: "Location must small than 10 characters" }),
-  tags: z.string(),
-});
+// This is the post we get from appwrite db when updating
+type PostFormProps = {
+  post?: Models.Document;
+};
 
-const PostForm = ({ post }) => {
+const PostForm = ({ post }: PostFormProps) => {
+  const userCtx = useUserContext();
+  const { mutateAsync: createPost, ispending: isLoadingCreate } =
+    useCreatePostMutation();
+
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof postValidation>>({
+    resolver: zodResolver(postValidation),
     defaultValues: {
-      caption: "",
-      file: "",
-      location: "",
-      tags: "",
+      caption: post ? post?.caption : "",
+      file: [],
+      location: post ? post?.location : "",
+      tags: post ? post?.tags.join(",") : "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof postValidation>) {
     console.log(values);
+    const newPost = await createPost({
+      ...values,
+      userId: userCtx.user.id,
+    });
+
+    if (!newPost) {
+      return toast({ title: "Please try again" });
+    }
+
+    return navigate("/");
   }
   return (
     <Form {...form}>

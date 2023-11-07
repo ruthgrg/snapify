@@ -2,7 +2,7 @@ import PostForm from "@/components/forms/PostForm";
 
 const CreatePost = () => {
   return (
-    <div className="flex flex-1 bg-slate-500">
+    <div className="flex flex-1">
       <div className="common-container">
         <div className="max-w-5x flex justify-start gap-3 w-full">
           <img
@@ -13,7 +13,7 @@ const CreatePost = () => {
           />
           <h2 className="h3-bold md:h2-bol text-left w-full">Create Post</h2>
         </div>
-        <PostForm />
+        <PostForm post={undefined} />
       </div>
     </div>
   );

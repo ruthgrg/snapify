@@ -1,6 +1,6 @@
 import { ID, Query } from "appwrite";
-import { INewUser } from "@/types";
-import { account, appwriteConfig, avatars, databases } from "./config";
+import { INewPost, INewUser } from "@/types";
+import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export const createUserAccount = async (user: INewUser) => {
     try {
@@ -14,7 +14,7 @@ export const createUserAccount = async (user: INewUser) => {
         if (!newAccount) throw Error;
 
         const avatarUrl = avatars.getInitials(user.name);
-        console.log(avatarUrl)
+        console.log(avatarUrl);
 
         const newUser = await saveUserToDB({
             accountId: newAccount.$id,
@@ -53,39 +53,123 @@ export async function saveUserToDB(user: {
     }
 }
 
-export const signInAccount = async (user: { email: string, password: string }) => {
+export const signInAccount = async (user: {
+    email: string;
+    password: string;
+}) => {
     try {
-        const session = await account.createEmailSession(user.email, user.password)
-        console.log('session', session)
+        const session = await account.createEmailSession(user.email, user.password);
+        console.log("session", session);
 
         return session;
-
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
-
+};
 
 export const getCurrentUser = async () => {
     try {
         const currentAccount = await account.get();
-        console.log(currentAccount)
-        if (!currentAccount) throw Error()
+        console.log(currentAccount);
+        if (!currentAccount) throw Error();
         const currentUser = await databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
-            [Query.equal('accountId', currentAccount.$id)]
-        )
+            [Query.equal("accountId", currentAccount.$id)]
+        );
         return currentUser.documents[0];
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const signOutAccount = async () => {
+    try {
+        const session = await account.deleteSession("current");
+        return session;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+export const createPost = async (post: INewPost) => {
+    try {
+        // Upload file to appwrite storage by calling self defined function
+        const uploadedFile = await uploadFile(post.file[0]);
+        if (!uploadedFile) throw Error;
+
+        // Get file Url
+        const fileUrl = getFilePreview(uploadedFile.$id);
+        if (!fileUrl) {
+            await deleteFile(uploadedFile.$id)
+            throw Error;
+        }
+
+        // Convert tags into array
+        const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
+        // create post
+        const newPost = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            ID.unique(), {
+            creator: post.userId,
+            caption: post.caption,
+            imageUrl: fileUrl,
+            imageId: uploadedFile.$id,
+            location: post.location,
+            tags: tags,
+        }
+        )
+
+        if (!newPost) {
+            await deleteFile(uploadedFile.$id);
+            throw Error;
+        }
+
+        return newPost
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+// Create a uploadFile function to store file in appwrite
+export const uploadFile = async (file: File) => {
+    console.log('file', file)
+    try {
+        const uploadedFile = await storage.createFile(
+            appwriteConfig.storageId,
+            ID.unique(),
+            file
+        );
+        return uploadedFile;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+export const getFilePreview = (fieldId: string) => {
+    try {
+        const fileUrl = storage.getFilePreview(
+            appwriteConfig.storageId, fieldId,
+            2000, 2000, 'top', 100
+        )
+
+        if (!fileUrl) throw Error;
+        return fileUrl
     } catch (error) {
         console.log(error)
     }
 }
 
-export const signOutAccount = async () => {
+export const deleteFile = async (fieldId: string) => {
     try {
-        const session = await account.deleteSession('current');
-        return session;
+        await storage.deleteFile(appwriteConfig.storageId, fieldId);
+        return { status: 'ok' }
     } catch (error) {
         console.log(error)
     }
