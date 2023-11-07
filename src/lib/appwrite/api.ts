@@ -138,7 +138,6 @@ export const createPost = async (post: INewPost) => {
 
 // Create a uploadFile function to store file in appwrite
 export const uploadFile = async (file: File) => {
-    console.log('file', file)
     try {
         const uploadedFile = await storage.createFile(
             appwriteConfig.storageId,
@@ -174,3 +173,16 @@ export const deleteFile = async (fieldId: string) => {
         console.log(error)
     }
 }
+
+export const getAllPosts = async () => {
+    try {
+        const posts = databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.postCollectionId,
+            [Query.orderDesc('$createdAt'), Query.limit(20)]
+        )
+
+        if (!posts) throw Error;
+        return posts
+    } catch (error) {
+        console.log(error)
+    }
+} 

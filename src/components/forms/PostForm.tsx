@@ -46,7 +46,6 @@ const PostForm = ({ post }: PostFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof postValidation>) {
-    console.log(values);
     const newPost = await createPost({
       ...values,
       userId: userCtx.user.id,
