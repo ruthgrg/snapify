@@ -70,7 +70,6 @@ export const signInAccount = async (user: {
 export const getCurrentUser = async () => {
     try {
         const currentAccount = await account.get();
-        console.log(currentAccount);
         if (!currentAccount) throw Error();
         const currentUser = await databases.listDocuments(
             appwriteConfig.databaseId,
@@ -201,6 +200,46 @@ export const likePost = async (postID: string, likesArray: string[]) => {
         if (!updatedPost) throw Error;
 
         return updatedPost
+
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+
+export const savePost = async (postId: string, userId: string) => {
+    try {
+        const updatedPost = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            ID.unique(),
+            {
+                user: userId,
+                post: postId,
+            }
+        );
+
+        if (!updatedPost) throw Error;
+
+        return updatedPost;
+
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+
+export const deleteSavePost = async (savedRecordID: string) => {
+    try {
+        const statusCode = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savesCollectionId,
+            savedRecordID
+        )
+
+        if (!statusCode) throw Error;
+
+        return statusCode
 
     } catch (error) {
         console.log(error)

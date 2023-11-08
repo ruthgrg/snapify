@@ -1,3 +1,11 @@
+import { useState } from "react";
+import { useUserContext } from "@/context/AuthContext";
+import {
+  useQueryGetCurrentUser,
+  useQueryToDeleteSavedPostMutation,
+  useQueryToLikePostMutation,
+  useQueryToSavedPostMutation,
+} from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
 
 type PoststatsProps = {
@@ -6,28 +14,73 @@ type PoststatsProps = {
 };
 
 const PostStats = ({ post, userId }: PoststatsProps) => {
+  const { data: currentUser } = useQueryGetCurrentUser();
+  console.log("currentUser", currentUser);
+
+  const { mutateAsync: likePost } = useQueryToLikePostMutation();
+
+  const { mutateAsync: savedPost } = useQueryToSavedPostMutation();
+
+  const { mutateAsync: deleteSavedPost } = useQueryToDeleteSavedPostMutation();
+
+  const likedList = post.likes.map((user: Models.Document) => user.id);
+
+  const [likes, setLikes] = useState(likedList);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleLikePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let newLikes = [...likes];
+    if (newLikes.includes(userId)) {
+      newLikes = newLikes.filter((id: string) => id !== userId);
+    } else {
+      newLikes.push(userId);
+    }
+
+    setLikes(newLikes);
+    likePost({ postID: post.$id, likesArray: newLikes });
+  };
+
+  const handleSavePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const savedPostRecord = currentUser?.save.find(
+      (record: Models.Document) => record.$id === post.$id
+    );
+
+    if (savedPostRecord) {
+      setIsSaved(false);
+      return deleteSavedPost(savedPostRecord.$id);
+    }
+    savedPost({ postID: post.$id, userID: userId });
+    setIsSaved(true);
+  };
+
+  const doesUserLiked = likes.includes(userId);
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex gap-2 items-center">
         <img
-          src="/assets/icons/like.svg"
+          src={
+            doesUserLiked ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"
+          }
           alt="like"
           width={20}
           height={20}
-          onClick={() => {}}
+          onClick={handleLikePost}
           className="cursor-pointer"
         />
         <p className="text-[12px] font-medium leading-[140%] lg:text-[16px]">
-          0
+          {likes.length}
         </p>
       </div>
       <div className="flex gap-2 items-center">
         <img
-          src="/assets/icons/save.svg"
+          src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
           alt="like"
           width={20}
           height={20}
-          onClick={() => {}}
+          onClick={handleSavePost}
           className="cursor-pointer"
         />
       </div>
