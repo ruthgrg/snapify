@@ -2,6 +2,7 @@ import { ID, Query } from "appwrite";
 import { INewPost, INewUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
+
 export const createUserAccount = async (user: INewUser) => {
     try {
         const newAccount = await account.create(
@@ -208,10 +209,11 @@ export const likePost = async (postID: string, likesArray: string[]) => {
 }
 
 export const savePost = async (postId: string, userId: string) => {
+
     try {
         const updatedPost = await databases.createDocument(
             appwriteConfig.databaseId,
-            appwriteConfig.userCollectionId,
+            appwriteConfig.savesCollectionId,
             ID.unique(),
             {
                 user: userId,
