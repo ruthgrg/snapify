@@ -32,7 +32,8 @@ type PostFormProps = {
 
 const PostForm = ({ post, action }: PostFormProps) => {
   const userCtx = useUserContext();
-  const { mutateAsync: createPost } = useQueryCreatePostMutation();
+  const { mutateAsync: createPost, ispending: createPostPending } =
+    useQueryCreatePostMutation();
   const { mutateAsync: updatePost, isPending: updatePostPending } =
     useQueryToUpdatePostMutation();
 
@@ -77,13 +78,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
     return navigate("/");
   }
 
-  if (updatePostPending) {
-    return (
-      <div className="flex justify-center items-center">
-        <Loader />
-      </div>
-    );
-  }
   return (
     <Form {...form}>
       <form
@@ -170,9 +164,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
           </Button>
           <Button
             type="submit"
+            disabled={createPostPending || updatePostPending}
             className="bg-primary-500 hover:bg-primary-600 text-light-1 flex gap-2 whitespace-nowrap"
           >
-            Submit
+            {createPostPending || (updatePostPending && "Loading...")}
+            {action === "Create" && "Create"}
+            {action === "Update" && "Update"}
           </Button>
         </div>
       </form>
