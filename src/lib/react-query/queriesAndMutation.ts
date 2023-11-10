@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getCurrentUser, getPostById, likePost, savePost, signInAccount, signOutAccount } from '../appwrite/api'
-import { INewPost, INewUser } from '@/types'
+import { createPost, createUserAccount, deleteSavePost, getAllPosts, getCurrentUser, getPostById, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
+import { INewPost, INewUser, IUpdatePost } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
 export const userCreateAccountMutation = () => {
     return useMutation({
@@ -101,6 +101,12 @@ export const useQueryToDeleteSavedPostMutation = () => {
         }
 
     });
+}
+
+export const useQueryToUpdatePostMutation = (post: IUpdatePost) => {
+    return useMutation({
+        mutationFn: () => updatePost(post)
+    })
 }
 
 export const useQueryGetCurrentUser = () => {
