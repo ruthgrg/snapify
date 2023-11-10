@@ -187,6 +187,23 @@ export const getAllPosts = async () => {
     }
 }
 
+export const getPostById = async (postId: string) => {
+    try {
+        const post = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId,
+        );
+
+        if (!post) throw Error;
+
+        return post;
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const likePost = async (postID: string, likesArray: string[]) => {
     try {
         const updatedPost = await databases.updateDocument(

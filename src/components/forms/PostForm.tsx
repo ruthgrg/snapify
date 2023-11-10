@@ -23,12 +23,12 @@ import { useNavigate } from "react-router-dom";
 // This is the post we get from appwrite db when updating
 type PostFormProps = {
   post?: Models.Document;
+  action: "Create" | "Update";
 };
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
   const userCtx = useUserContext();
-  const { mutateAsync: createPost, ispending: isLoadingCreate } =
-    useCreatePostMutation();
+  const { mutateAsync: createPost } = useCreatePostMutation();
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -57,6 +57,7 @@ const PostForm = ({ post }: PostFormProps) => {
 
     return navigate("/");
   }
+  console.log(post?.imageUrl);
   return (
     <Form {...form}>
       <form
