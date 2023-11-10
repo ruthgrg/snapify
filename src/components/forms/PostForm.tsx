@@ -16,9 +16,13 @@ import FileUploader from "../ui/shared/FileUploader";
 import { postValidation } from "@/lib/validation";
 import { Models } from "appwrite";
 import { useUserContext } from "@/context/AuthContext";
-import { useCreatePostMutation } from "@/lib/react-query/queriesAndMutation";
+import {
+  useQueryCreatePostMutation,
+  useQueryToUpdatePostMutation,
+} from "@/lib/react-query/queriesAndMutation";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import Loader from "../ui/shared/Loader";
 
 // This is the post we get from appwrite db when updating
 type PostFormProps = {
@@ -28,7 +32,9 @@ type PostFormProps = {
 
 const PostForm = ({ post, action }: PostFormProps) => {
   const userCtx = useUserContext();
-  const { mutateAsync: createPost } = useCreatePostMutation();
+  const { mutateAsync: createPost } = useQueryCreatePostMutation();
+  const { mutateAsync: updatePost, isPending: updatePostPending } =
+    useQueryToUpdatePostMutation();
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -46,6 +52,19 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof postValidation>) {
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post?.imageId,
+        imageUrl: post?.imageUrl,
+      });
+
+      if (!updatedPost) {
+        return toast({ title: "Please try again" });
+      }
+      return navigate(`/posts/${post.$id}`);
+    }
     const newPost = await createPost({
       ...values,
       userId: userCtx.user.id,
@@ -57,7 +76,14 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
     return navigate("/");
   }
-  console.log(post?.imageUrl);
+
+  if (updatePostPending) {
+    return (
+      <div className="flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <Form {...form}>
       <form

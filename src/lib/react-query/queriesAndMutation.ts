@@ -22,7 +22,7 @@ export const useSignOutMutation = () => {
     })
 }
 
-export const useCreatePostMutation = () => {
+export const useQueryCreatePostMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (post: INewPost) => createPost(post),
@@ -103,9 +103,15 @@ export const useQueryToDeleteSavedPostMutation = () => {
     });
 }
 
-export const useQueryToUpdatePostMutation = (post: IUpdatePost) => {
+export const useQueryToUpdatePostMutation = () => {
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => updatePost(post)
+        mutationFn: (post: IUpdatePost) => updatePost(post),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_POST_BY_ID, data?.$id]
+            })
+        }
     })
 }
 

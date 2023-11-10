@@ -272,13 +272,10 @@ export const updatePost = async (post: IUpdatePost) => {
         if (hasFileToUpdate) {
             //Upload image to storage
             const uploadedFile = await uploadFile(post.file[0]);
-            console.log("uploaded file", uploadedFile);
             if (!uploadedFile) throw Error;
 
             // Get file url
             const fileUrl = getFilePreview(uploadedFile.$id);
-
-            console.log("fileUrl", fileUrl);
 
             if (!fileUrl) {
                 await deleteFile(uploadedFile.$id);
@@ -290,6 +287,8 @@ export const updatePost = async (post: IUpdatePost) => {
 
         //convert tags in an array
         const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
+        // update post
         const updatedPost = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
@@ -304,8 +303,17 @@ export const updatePost = async (post: IUpdatePost) => {
         );
 
         if (!updatePost) {
-            await deleteFile(post.imageId);
+            // Delete new file that has been recently uploaded
+            if (hasFileToUpdate) {
+                await deleteFile(image.imageId);
+            }
+            // If no new file uploaded, just throw error
             throw Error;
+        }
+
+        // Safely delete old file after successful update
+        if (hasFileToUpdate) {
+            await deleteFile(post.imageId);
         }
 
         return updatedPost;
@@ -325,5 +333,5 @@ export const deletePost = async (postId: string, imageId: string) => {
 
     if (!deletedPost) throw Error;
 
-    return { status: 'ok', message: '' };
+    return { status: 'ok', message: 'Successfully deleted' };
 };
