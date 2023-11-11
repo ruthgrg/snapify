@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getCurrentUser, getPostById, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavePost, getAllPosts, getCurrentUser, getInfinitePost, getPostById, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
 export const userCreateAccountMutation = () => {
@@ -127,5 +127,29 @@ export const useQueryGetPostById = (postId: string) => {
         queryKey: [QUERY_KEYS.GET_POST_BY_ID],
         queryFn: () => getPostById(postId),
         enabled: !!postId
+    })
+}
+
+export const useQueryGetInfinitePosts = () => {
+    return useInfiniteQuery({
+        queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+        queryFn: getInfinitePost,
+        getNextPageParam: (lastPage: any) => {
+            if (lastPage && lastPage.documents.length === 0) return null;
+            const lastId = lastPage.documents[lastPage.documents.length - 1].$id
+
+            return lastId;
+        }
+    });
+
+}
+
+
+export const useQueryGetSeachedPosts = (searchTerm: string) => {
+    console.log('query function called')
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_SEARCHED_POSTS],
+        queryFn: () => getSearchPosts(searchTerm),
+        enabled: !!searchTerm
     })
 }

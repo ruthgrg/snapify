@@ -359,3 +359,19 @@ export const getInfinitePost = async ({ pageParams }: { pageParams: number }) =>
         console.log(error)
     }
 }
+
+export const getSearchPosts = async (searchTerm: string) => {
+    try {
+        const searchedPosts = databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            [Query.search('caption', searchTerm)]
+        )
+
+        if (!searchedPosts) throw Error;
+
+        return searchedPosts
+    } catch (error) {
+        console.log(error)
+    }
+}

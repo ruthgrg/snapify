@@ -1,16 +1,38 @@
 import { Input } from "@/components/ui/input";
 import GridPostList from "@/components/ui/shared/GridPostList";
+import Loader from "@/components/ui/shared/Loader";
 import SearchResults from "@/components/ui/shared/SearchResults";
+import useDebounce from "@/hooks/useDebounce";
+import {
+  useQueryGetInfinitePosts,
+  useQueryGetSeachedPosts,
+} from "@/lib/react-query/queriesAndMutation";
 import { useState } from "react";
 
 const Explore = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const {
+    data: posts,
+    fecthNextPage,
+    hasNextPage,
+  } = useQueryGetInfinitePosts();
 
-  // const posts = [];
-  // const shouldShowSearchResults = searchValue !== "";
-  // const shouldShowPosts =
-  //   !shouldShowSearchResults &&
-  //   posts?.pages.every((item) => item.documents.length === 0);
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedValue = useDebounce(searchValue, 500);
+  const { data: SearchPosts, isFetching: isSearchFetching } =
+    useQueryGetSeachedPosts(debouncedValue);
+
+  if (!posts) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
+
+  const shouldShowSearchResults = searchValue !== "";
+  const shouldShowPosts =
+    !shouldShowSearchResults &&
+    posts?.pages.every((item) => item.documents.length === 0);
 
   return (
     <div className="flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">
@@ -46,7 +68,7 @@ const Explore = () => {
       </div>
 
       <div className="bg-dark-4 flex flex-wrap gap-9 w-full max-w-5xl">
-        {/* {shouldShowPosts ? (
+        {shouldShowPosts ? (
           <SearchResults />
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">
@@ -56,7 +78,7 @@ const Explore = () => {
           posts.pages.map((item, index) => (
             <GridPostList key={`pages-${index}`} posts={item.documents} />
           ))
-        )} */}
+        )}
       </div>
     </div>
   );
