@@ -4,11 +4,7 @@ import { useQueryToGetRecentPosts } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
 
 const Home = () => {
-  const {
-    data: posts,
-    isPending: isPostsLoading,
-    isError: isPostsError,
-  } = useQueryToGetRecentPosts();
+  const { data: posts, isPending: isPostsLoading } = useQueryToGetRecentPosts();
   return (
     <div className="flex flex-1">
       <div className="flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar ">

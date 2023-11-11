@@ -335,3 +335,27 @@ export const deletePost = async (postId: string, imageId: string) => {
 
     return { status: 'ok', message: 'Successfully deleted' };
 };
+
+
+export const getInfinitePost = async ({ pageParams }: { pageParams: number }) => {
+    const queries = [Query.orderDesc('$updatedAt'), Query.limit(10)]
+
+    if (pageParams) {
+        queries.push(Query.cursorAfter(pageParams.toString()))
+    }
+
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            queries
+        )
+
+        if (!posts) throw Error;
+
+        return posts
+
+    } catch (error) {
+        console.log(error)
+    }
+}
