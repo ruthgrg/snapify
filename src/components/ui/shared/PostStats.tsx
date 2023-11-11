@@ -9,7 +9,7 @@ import { Models } from "appwrite";
 import { Loader } from "lucide-react";
 
 type PoststatsProps = {
-  post: Models.Document;
+  post?: Models.Document;
   userId: string;
 };
 
@@ -24,13 +24,13 @@ const PostStats = ({ post, userId }: PoststatsProps) => {
 
   const { mutate: deleteSavedPost } = useQueryToDeleteSavedPostMutation();
 
-  const likedList = post.likes?.map((user: Models.Document) => user.$id);
+  const likedList = post?.likes?.map((user: Models.Document) => user.$id);
 
   const [likes, setLikes] = useState(likedList);
   const [isSaved, setIsSaved] = useState(false);
 
   const savedPostRecord = currentUser?.save.find(
-    (record: Models.Document) => record.post.$id === post.$id
+    (record: Models.Document) => record.post.$id === post?.$id
   );
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const PostStats = ({ post, userId }: PoststatsProps) => {
     }
 
     setLikes(newLikes);
-    likePost({ postID: post.$id, likesArray: newLikes });
+    likePost({ postID: post?.$id || "", likesArray: newLikes });
   };
 
   const handleSavePost = (e: React.MouseEvent) => {
@@ -57,7 +57,7 @@ const PostStats = ({ post, userId }: PoststatsProps) => {
       setIsSaved(false);
       return deleteSavedPost(savedPostRecord.$id);
     }
-    savedPost({ postID: post.$id, userID: userId });
+    savedPost({ postID: post?.$id || "", userID: userId });
     setIsSaved(true);
   };
 
