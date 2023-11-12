@@ -68,7 +68,7 @@ const Explore = () => {
       </div>
 
       <div className="bg-dark-4 flex flex-wrap gap-9 w-full max-w-5xl">
-        {shouldShowPosts ? (
+        {shouldShowSearchResults ? (
           <SearchResults />
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">
