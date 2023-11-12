@@ -334,15 +334,18 @@ export const deletePost = async (postId: string, imageId: string) => {
 
     if (!deletedPost) throw Error;
 
-    return { status: 'ok', message: 'Successfully deleted' };
+    return { status: "ok", message: "Successfully deleted" };
 };
 
-
-export const getInfinitePost = async ({ pageParams }: { pageParams: number }) => {
-    const queries = [Query.orderDesc('$updatedAt'), Query.limit(10)]
+export const getInfinitePost = async ({
+    pageParams,
+}: {
+    pageParams: number;
+}) => {
+    const queries = [Query.orderDesc("$updatedAt"), Query.limit(10)];
 
     if (pageParams) {
-        queries.push(Query.cursorAfter(pageParams.toString()))
+        queries.push(Query.cursorAfter(pageParams.toString()));
     }
 
     try {
@@ -350,44 +353,60 @@ export const getInfinitePost = async ({ pageParams }: { pageParams: number }) =>
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
             queries
-        )
+        );
 
         if (!posts) throw Error;
 
-        return posts
-
+        return posts;
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
+};
 
 export const getSearchPosts = async (searchTerm: string) => {
     try {
         const searchedPosts = databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
-            [Query.search('caption', searchTerm)]
-        )
+            [Query.search("caption", searchTerm)]
+        );
 
         if (!searchedPosts) throw Error;
 
-        return searchedPosts
+        return searchedPosts;
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
-
+};
 
 export const getAllUsers = async () => {
     try {
-        const allUsers = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.userCollectionId,
+        const allUsers = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
             [Query.orderDesc("$createdAt")]
-        )
+        );
 
         if (!allUsers) throw Error;
 
-        return allUsers
+        return allUsers;
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
+};
+
+export const getSavedPosts = async (userId: string) => {
+    try {
+        const savedPosts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.savesCollectionId,
+            [Query.equal('$id', userId)]
+        );
+
+        if (!savedPosts) throw Error;
+
+        return savedPosts;
+    } catch (error) {
+        console.log(error);
+    }
+};
