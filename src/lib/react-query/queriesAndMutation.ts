@@ -148,7 +148,7 @@ export const useQueryGetInfinitePosts = () => {
 export const useQueryGetSeachedPosts = (searchTerm: string) => {
     console.log('query function called')
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_SEARCHED_POSTS],
+        queryKey: [QUERY_KEYS.GET_SEARCHED_POSTS, searchTerm],
         queryFn: () => getSearchPosts(searchTerm),
         enabled: !!searchTerm
     })
