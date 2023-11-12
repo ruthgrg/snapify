@@ -1,6 +1,7 @@
 import { ID, Query } from "appwrite";
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { AllUsers } from "@/_root/pages";
 
 export const createUserAccount = async (user: INewUser) => {
     try {
@@ -371,6 +372,21 @@ export const getSearchPosts = async (searchTerm: string) => {
         if (!searchedPosts) throw Error;
 
         return searchedPosts
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getAllUsers = async () => {
+    try {
+        const allUsers = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.userCollectionId,
+            [Query.orderDesc("$createdAt")]
+        )
+
+        if (!allUsers) throw Error;
+
+        return allUsers
     } catch (error) {
         console.log(error)
     }
