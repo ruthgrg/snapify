@@ -17,10 +17,9 @@ const GridPostList = ({
   const userCtx = useUserContext();
 
   return (
-    <ul className="w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">
+    <ul className="w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl p-2 ">
       {posts.map((post) => (
         <li key={post.$id} className="relative min-w-80 h-80">
-          {post.caption}
           <Link
             to={`/posts/${post.$id}`}
             className="flex rounded-[24px] border border-dark-4 overflow-hidden cursor-pointer w-full h-full"
@@ -31,7 +30,7 @@ const GridPostList = ({
               className="h-full w-full object-cover"
             />
           </Link>
-          <div className="absolute bottom-[-24px] p-5 flex justify-between items-center w-full bg-gradient-to-t from-dark-3 to transparent rounded-b-[24px] gap-2">
+          <div className="absolute bottom-0 p-5 flex justify-between items-center w-full bg-gradient-to-t from-dark-3 to transparent rounded-b-[24px] gap-2">
             {showUser && (
               <div className="flex items-center justify-start gap-2">
                 <img
@@ -42,7 +41,7 @@ const GridPostList = ({
                 <p className="">{post.creator.name}</p>
               </div>
             )}
-            {showStats && <PostStats post={post} userId={userCtx.id} />}
+            {showStats && <PostStats post={post} userId={userCtx.user.id} />}
           </div>
         </li>
       ))}
