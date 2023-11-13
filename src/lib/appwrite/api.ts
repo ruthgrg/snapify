@@ -363,6 +363,23 @@ export const getInfinitePost = async ({
     }
 };
 
+export const getAllpostsById = async (userId: string) => {
+    const queries = [Query.equal('creator', userId)]
+    try {
+        const posts = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            queries
+        )
+
+        if (!posts) throw Error;
+
+        return posts
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getSearchPosts = async (searchTerm: string) => {
     try {
         const searchedPosts = databases.listDocuments(

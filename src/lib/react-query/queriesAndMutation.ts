@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getCurrentUser, getInfinitePost, getPostById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getInfinitePostById, getPostById, getPostsById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
+
 export const userCreateAccountMutation = () => {
     return useMutation({
         mutationFn: (user: INewUser) => createUserAccount(user)
@@ -140,6 +141,15 @@ export const useQueryGetInfinitePosts = () => {
 
             return lastId;
         }
+    });
+
+}
+
+export const useQueryGetPostsById = (userId: string) => {
+
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_POSTS_BY_ID],
+        queryFn: () => getAllpostsById(userId)
     });
 
 }
