@@ -32,11 +32,14 @@ const Profile = () => {
           />
         </div>
         <div className="max-sm:max-sm-flex">
-          <div className="flex items-center ">
+          <div className="flex items-center gap-3">
             <h1 className="text-[18px] font-bold leading-[140%]">
               {userCtx.user.name}
             </h1>
-            <button className="px-3">Edit</button>
+            <button className="flex items-center gap-1 bg-dark-4 rounded-[8px] p-2">
+              <img src="/assets/icons/edit-copy.svg" width={18} height={18} />
+              Edit profile
+            </button>
           </div>
           <p className="text-[16px] text-light-3 font-medium">
             @{userCtx.user.username}
@@ -55,7 +58,7 @@ const Profile = () => {
               <p className="text-primary-500">Following</p>
             </div>
           </div>
-          <div className="sm:items-start text-center">
+          <div className="sm:text-start text-center">
             <p>🌿Capturing the essence of nature through my lens</p>
             <p>
               ✨"In every walk with nature, one recieves far more than he
@@ -65,7 +68,7 @@ const Profile = () => {
         </div>
       </div>
       <div>
-        <div className="flex justify-between items-center w-full max-w:5xl mt-16 mb-7">
+        <div className="flex justify-between items-center w-full max-w-6xl mt-16 mb-7">
           <h3 className="h3-bold md:h3-bold w-full">Posts</h3>
           <div className="bg-dark-3 flex justify-center items-center gap-3 rounded-xl px-4 py-2 cursor-pointer">
             <p className="text-[12px] font-medium leading-[140%]">All</p>
