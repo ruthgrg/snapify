@@ -19,14 +19,13 @@ const Saved = () => {
 
   return (
     <div className="w-full flex flex-col py-10 px-10 overflow-scroll custom-scrollbar">
-      <div className="flex w-full gap-5 py-5">
+      <div className="flex items-center w-full gap-5 py-5">
         <img
           src="/assets/icons/saved-copy.svg"
           alt="allUsers"
-          width={36}
-          height={36}
+          className="w-[24px] h-[24px]"
         />
-        <h1 className="text-[24px] font-medium leading-[140%]">Saved</h1>
+        <h1 className="sm:text-[24px] font-medium leading-[140%]">Saved</h1>
       </div>
       {savedPosts && (
         <GridPostList

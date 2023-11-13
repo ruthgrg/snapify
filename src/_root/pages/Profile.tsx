@@ -20,18 +20,20 @@ const Profile = () => {
     );
   }
   return (
-    <div className="w-full flex-col py-11 px-8">
-      <div className="flex items-start gap-3">
+    <div className="w-full flex-col py-[70px] px-8 overflow-scroll custom-scrollbar">
+      <div className="flex items-start gap-5 max-sm:flex-col max-sm:items-center">
         <div>
           <img
             src={userCtx.user.imageUrl}
             alt="profile pic"
-            className="h-12 w-12 rounded-full"
+            width={150}
+            height={150}
+            className="rounded-full"
           />
         </div>
-        <div>
+        <div className="max-sm:max-sm-flex">
           <div className="flex items-center ">
-            <h1 className="text-[24px] font-bold leading-[140%]">
+            <h1 className="text-[18px] font-bold leading-[140%]">
               {userCtx.user.name}
             </h1>
             <button className="px-3">Edit</button>
@@ -40,20 +42,20 @@ const Profile = () => {
             @{userCtx.user.username}
           </p>
           <div className="flex gap-5 my-4">
-            <div>
+            <div className="">
               <h3>{5}</h3>
-              <p>Posts</p>
+              <p className="text-primary-500">Posts</p>
             </div>
             <div>
               <h3>{236}</h3>
-              <p>Followers</p>
+              <p className="text-primary-500">Followers</p>
             </div>
             <div>
               <h3>{234}</h3>
-              <p>Following</p>
+              <p className="text-primary-500">Following</p>
             </div>
           </div>
-          <div className="">
+          <div className="sm:items-start text-center">
             <p>🌿Capturing the essence of nature through my lens</p>
             <p>
               ✨"In every walk with nature, one recieves far more than he

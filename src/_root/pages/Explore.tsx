@@ -43,7 +43,7 @@ const Explore = () => {
   return (
     <div className="flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">
       <div className="max:w-5xl flex flex-col items-center w-full gap-6 md:gap-9">
-        <h2 className="h3-bold md:h2-bold w-full">Seacrh Posts</h2>
+        <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
         <div className="flex gap-3 px-4 w-full rounded-lg bh-dark-4">
           <img
             src="/assets/icons/search.svg"
