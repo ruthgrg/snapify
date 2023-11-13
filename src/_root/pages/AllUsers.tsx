@@ -12,13 +12,11 @@ const AllUsers = () => {
       </div>
     );
   }
-  console.log(allUsers);
-
   return (
-    <div className="flex flex-col w-full py-10 px-10">
+    <div className="flex flex-col w-full py-10 px-10 overflow-scroll custom-scrollbar">
       <div className="flex w-full gap-5 py-5">
         <img
-          src="/assets/icons/people.svg"
+          src="/assets/icons/people-copy.svg"
           alt="allUsers"
           width={36}
           height={36}

@@ -400,7 +400,7 @@ export const getSavedPosts = async (userId: string) => {
         const savedPosts = await databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.savesCollectionId,
-            [Query.equal('$id', userId)]
+            [Query.equal('user', userId)]
         );
 
         if (!savedPosts) throw Error;
