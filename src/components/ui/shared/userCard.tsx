@@ -6,7 +6,6 @@ type UserCardProp = {
 };
 
 const userCard = ({ user }: UserCardProp) => {
-  console.log(user);
   return (
     <div className="flex flex-col justify-center items-center gap-3">
       <img

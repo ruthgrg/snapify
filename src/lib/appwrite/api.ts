@@ -1,7 +1,7 @@
 import { ID, Query } from "appwrite";
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
-import { AllUsers } from "@/_root/pages";
+
 
 export const createUserAccount = async (user: INewUser) => {
     try {
@@ -15,7 +15,6 @@ export const createUserAccount = async (user: INewUser) => {
         if (!newAccount) throw Error;
 
         const avatarUrl = avatars.getInitials(user.name);
-        console.log(avatarUrl);
 
         const newUser = await saveUserToDB({
             accountId: newAccount.$id,
@@ -60,7 +59,6 @@ export const signInAccount = async (user: {
 }) => {
     try {
         const session = await account.createEmailSession(user.email, user.password);
-        console.log("session", session);
 
         return session;
     } catch (error) {

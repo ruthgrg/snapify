@@ -2,16 +2,18 @@ import GridPostList from "@/components/ui/shared/GridPostList";
 import Loader from "@/components/ui/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetPostsById } from "@/lib/react-query/queriesAndMutation";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const userCtx = useUserContext();
-  const {
-    data: posts,
-    isPending,
-    isFetching,
-  } = useQueryGetPostsById(userCtx.user.id);
+  const navigate = useNavigate();
+  const { data: posts, isFetching } = useQueryGetPostsById(userCtx.user.id);
 
-  console.log(posts);
+  useEffect(() => {
+    if (!userCtx.isAuthenticated) return navigate("/");
+  }, [navigate, userCtx.isAuthenticated]);
+
   if (isFetching) {
     return (
       <div className="flex justify-center items-center w-full">
@@ -67,8 +69,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div className="flex justify-between items-center w-full max-w-6xl mt-16 mb-7">
+      <div className="flex flex-col items-center">
+        <div className="flex justify-between items-center w-full max-w-7xl mt-16 mb-7">
           <h3 className="h3-bold md:h3-bold w-full">Posts</h3>
           <div className="bg-dark-3 flex justify-center items-center gap-3 rounded-xl px-4 py-2 cursor-pointer">
             <p className="text-[12px] font-medium leading-[140%]">All</p>

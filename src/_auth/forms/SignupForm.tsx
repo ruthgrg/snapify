@@ -60,14 +60,14 @@ const SignupForm = () => {
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account" });
         navigate("/");
-        return
+        return;
       }
 
       const isLoggedIn = await checkAuthUser();
 
       if (isLoggedIn) {
         form.reset();
-        navigate("/");
+        navigate("/home");
       } else {
         return toast({ title: "sign up failed" });
       }

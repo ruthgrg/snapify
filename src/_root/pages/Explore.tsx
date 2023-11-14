@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import GridPostList from "@/components/ui/shared/GridPostList";
 import Loader from "@/components/ui/shared/Loader";
 import SearchResults from "@/components/ui/shared/SearchResults";
+import { useUserContext } from "@/context/AuthContext";
 import useDebounce from "@/hooks/useDebounce";
 import {
   useQueryGetInfinitePosts,
@@ -9,6 +10,7 @@ import {
 } from "@/lib/react-query/queriesAndMutation";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 
 const Explore = () => {
   const {
@@ -17,6 +19,8 @@ const Explore = () => {
     hasNextPage,
   } = useQueryGetInfinitePosts();
 
+  const userCtx = useUserContext();
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const debouncedValue = useDebounce(searchValue, 600);
   const { data: SearchPosts, isFetching: isSearchFetching } =
@@ -24,8 +28,11 @@ const Explore = () => {
   const { ref, inView } = useInView();
 
   useEffect(() => {
+    if (!userCtx.isAuthenticated) {
+      return navigate("/");
+    }
     if (inView && !searchValue) fetchNextPage();
-  }, [fetchNextPage, inView, searchValue]);
+  }, [fetchNextPage, inView, navigate, searchValue, userCtx.isAuthenticated]);
 
   if (!posts) {
     return (

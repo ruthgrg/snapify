@@ -1,9 +1,19 @@
 import Loader from "@/components/ui/shared/Loader";
 import PostCard from "@/components/ui/shared/PostCard";
+import { useUserContext } from "@/context/AuthContext";
 import { useQueryToGetRecentPosts } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const userCtx = useUserContext();
+
+  useEffect(() => {
+    if (!userCtx.isAuthenticated) return navigate("/");
+  }, [navigate, userCtx.isAuthenticated]);
+
   const { data: posts, isPending: isPostsLoading } = useQueryToGetRecentPosts();
   return (
     <div className="flex flex-1">

@@ -1,9 +1,21 @@
 import Loader from "@/components/ui/shared/Loader";
 import UserCard from "@/components/ui/shared/userCard";
+import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetAllUsers } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AllUsers = () => {
+  const userCtx = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userCtx.isAuthenticated) {
+      return navigate("/");
+    }
+  }, [navigate, userCtx.isAuthenticated]);
+
   const { data: allUsers, isPending } = useQueryGetAllUsers();
   if (isPending) {
     return (
@@ -18,9 +30,11 @@ const AllUsers = () => {
         <img
           src="/assets/icons/people-copy.svg"
           alt="allUsers"
-          className="w-[24px] h-[24px]"
+          width={36}
+          height={36}
+          // className="w-[24px] h-[24px]"
         />
-        <h1 className="sm:text-[24px] font-medium leading-[140%]">All Users</h1>
+        <h1 className="h3-bold md:h2-bol text-left w-full">All Users</h1>
       </div>
       <ul className="w-full h-full grid justify-items-center grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5  py-4">
         {allUsers &&

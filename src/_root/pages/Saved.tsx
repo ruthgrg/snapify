@@ -2,9 +2,17 @@ import GridPostList from "@/components/ui/shared/GridPostList";
 import Loader from "@/components/ui/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetSavedPosts } from "@/lib/react-query/queriesAndMutation";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Saved = () => {
   const userCtx = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userCtx.isAuthenticated) return navigate("/");
+  }, [navigate, userCtx.isAuthenticated]);
+
   const { data: savedPosts, isPending } = useQueryGetSavedPosts(
     userCtx.user.id
   );
@@ -23,9 +31,11 @@ const Saved = () => {
         <img
           src="/assets/icons/saved-copy.svg"
           alt="allUsers"
-          className="w-[24px] h-[24px]"
+          width={36}
+          height={36}
+          // className="w-[24px] h-[24px]"
         />
-        <h1 className="sm:text-[24px] font-medium leading-[140%]">Saved</h1>
+        <h1 className="h3-bold md:h2-bol text-left w-full">Saved</h1>
       </div>
       {savedPosts && (
         <GridPostList

@@ -15,9 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  userSigninMutation,
-} from "@/lib/react-query/queriesAndMutation";
+import { userSigninMutation } from "@/lib/react-query/queriesAndMutation";
 import { useUserContext } from "@/context/AuthContext";
 
 const SigninForm = () => {
@@ -25,8 +23,7 @@ const SigninForm = () => {
   const { toast } = useToast();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-  const { mutateAsync: signInAccount } =
-    userSigninMutation();
+  const { mutateAsync: signInAccount, isPending } = userSigninMutation();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof signinValidationSchema>>({
@@ -40,7 +37,6 @@ const SigninForm = () => {
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof signinValidationSchema>) => {
     try {
-
       const session = await signInAccount({
         email: values.email,
         password: values.password,
@@ -49,15 +45,15 @@ const SigninForm = () => {
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account" });
         navigate("/");
-        return
+        return;
       }
 
       const isLoggedIn = await checkAuthUser();
-      console.log('isLoggedIn', isLoggedIn)
+      console.log("isLoggedIn", isLoggedIn);
 
       if (isLoggedIn) {
         form.reset();
-        navigate("/");
+        navigate("/home");
       } else {
         return toast({ title: "sign in failed" });
       }
@@ -118,12 +114,13 @@ const SigninForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isUserLoading && (
+            {isPending || isUserLoading ? (
               <div className="flex-center gap-3">
                 <Loader /> Loading...
               </div>
+            ) : (
+              "texst"
             )}
-            {!isUserLoading && "Log in"}
           </Button>
           <p className="text-center mt-2 text-small-regular text-light-2">
             Don't have an account?
