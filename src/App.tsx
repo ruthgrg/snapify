@@ -17,8 +17,19 @@ import RootLayout from "./_root/RootLayout";
 import { Toaster } from "@/components/ui/toaster";
 import CreatePost from "./_root/pages/CreatePost";
 import Entry from "./_auth/forms/Entry";
+import { useUserContext } from "./context/AuthContext";
+import { Loader } from "lucide-react";
 
 const App = () => {
+  const userCtx = useUserContext();
+  if (userCtx.isLoading) {
+    return (
+      <div className="flex justify-center items-center bg-black">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <main className="flex h-screen">
       <Routes>
