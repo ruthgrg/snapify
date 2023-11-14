@@ -25,7 +25,7 @@ const Explore = () => {
   const debouncedValue = useDebounce(searchValue, 600);
   const { data: SearchPosts, isFetching: isSearchFetching } =
     useQueryGetSeachedPosts(debouncedValue);
-  const { ref, inView } = useInView();
+  const { inView } = useInView();
 
   useEffect(() => {
     if (!userCtx.isAuthenticated) {

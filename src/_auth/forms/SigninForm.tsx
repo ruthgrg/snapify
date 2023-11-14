@@ -119,7 +119,7 @@ const SigninForm = () => {
                 <Loader /> Loading...
               </div>
             ) : (
-              "texst"
+              "sign in"
             )}
           </Button>
           <p className="text-center mt-2 text-small-regular text-light-2">

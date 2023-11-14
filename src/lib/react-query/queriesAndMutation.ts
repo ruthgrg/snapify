@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tansta
 import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getInfinitePostById, getPostById, getPostsById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
+import { Query } from 'appwrite';
 
 export const userCreateAccountMutation = () => {
     return useMutation({
@@ -156,7 +157,7 @@ export const useQueryGetPostsById = (userId: string) => {
 
 
 export const useQueryGetSeachedPosts = (searchTerm: string) => {
-    console.log('query function called')
+    console.log('seach Query')
     return useQuery({
         queryKey: [QUERY_KEYS.GET_SEARCHED_POSTS, searchTerm],
         queryFn: () => getSearchPosts(searchTerm),

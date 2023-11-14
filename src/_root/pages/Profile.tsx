@@ -3,7 +3,8 @@ import Loader from "@/components/ui/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetPostsById } from "@/lib/react-query/queriesAndMutation";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import CreatePost from "./CreatePost";
 
 const Profile = () => {
   const userCtx = useUserContext();
@@ -38,10 +39,12 @@ const Profile = () => {
             <h1 className="text-[18px] font-bold leading-[140%]">
               {userCtx.user.name}
             </h1>
-            <button className="flex items-center gap-1 bg-dark-4 rounded-[8px] p-2">
-              <img src="/assets/icons/edit-copy.svg" width={18} height={18} />
-              Edit profile
-            </button>
+            <Link to={`/update-profile/${userCtx.user.id}`}>
+              <button className="flex items-center gap-1 bg-dark-4 rounded-[8px] p-2">
+                <img src="/assets/icons/edit-copy.svg" width={18} height={18} />
+                Edit profile
+              </button>
+            </Link>
           </div>
           <p className="text-[16px] text-light-3 font-medium">
             @{userCtx.user.username}
@@ -82,6 +85,14 @@ const Profile = () => {
             />
           </div>
         </div>
+        {posts?.documents.length === 0 && (
+          <div>
+            No post available. If you want create one{" "}
+            <Link to="/CreatePost" className="underline text-primary-500">
+              Create post
+            </Link>
+          </div>
+        )}
         <GridPostList posts={posts?.documents} />
       </div>
     </div>

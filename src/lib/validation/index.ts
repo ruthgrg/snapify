@@ -32,3 +32,20 @@ export const postValidation = z.object({
         .max(1000, { message: "Maximum 1000 characters." }),
     tags: z.string(),
 });
+
+export const profileValidation = z.object({
+    file: z.custom<File[]>(),
+    name: z
+        .string()
+        .min(5, { message: "Minimum 5 characters." })
+        .max(2200, { message: "Maximum 2,200 caracters" }),
+    username: z
+        .string()
+        .min(3, { message: "This field is required" })
+        .max(1000, { message: "Maximum 1000 characters." }),
+    email: z.string().includes('@')
+        .min(7, { message: 'Email must be atleast 8 characters' })
+        .max(2200, { message: '' }),
+    bio: z
+        .string().max(2200, { message: 'Not longer than 2200 characters' })
+});

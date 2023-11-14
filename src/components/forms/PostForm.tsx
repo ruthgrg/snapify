@@ -22,7 +22,6 @@ import {
 } from "@/lib/react-query/queriesAndMutation";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import Loader from "../ui/shared/Loader";
 
 // This is the post we get from appwrite db when updating
 type PostFormProps = {
