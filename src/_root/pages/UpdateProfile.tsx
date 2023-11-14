@@ -9,7 +9,7 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     if (!userCtx.isAuthenticated) return navigate("/");
-  }, [navigate, userCtx.isAuthenticated]);
+  }, [userCtx.isAuthenticated]);
 
   return (
     <div className="flex flex-1">

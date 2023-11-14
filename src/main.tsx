@@ -7,13 +7,12 @@ import AuthContextProvider from "./context/AuthContext";
 
 const queryClient = new QueryClient();
 
-// ReactDOM.createRoot(document.getElementById('root')!).render(
-//     <BrowserRouter>
-//         <QueryClientProvider client={queryClient}>
-//             <AuthContextProvider>
-//                 <App />
-//             </AuthContextProvider>
-//         </QueryClientProvider>
-//     </BrowserRouter>
-
-// )
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </QueryClientProvider>
+  </BrowserRouter>
+);

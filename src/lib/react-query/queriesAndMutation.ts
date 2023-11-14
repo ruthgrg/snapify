@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getInfinitePostById, getPopularPosts, getPostById, getPostsById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
-import { INewPost, INewUser, IUpdatePost } from '@/types'
+import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getInfinitePostById, getPopularPosts, getPostById, getPostsById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
+import { INewPost, INewUser, IUpdatePost, IUser } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
 import { Query } from 'appwrite';
 
@@ -113,6 +113,18 @@ export const useQueryToUpdatePostMutation = () => {
         onSuccess: (data) => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_POST_BY_ID, data?.$id]
+            })
+        }
+    })
+}
+
+export const useQueryToUpdateProfileMutation = (user: IUser) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => updateProfile(user),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_CURRENT_USER]
             })
         }
     })

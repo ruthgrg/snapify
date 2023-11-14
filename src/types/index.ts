@@ -46,3 +46,4 @@ export type IUpdatePost = {
     location: string,
     tags?: string
 }
+

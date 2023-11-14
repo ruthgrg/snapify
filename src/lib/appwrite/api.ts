@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { INewPost, INewUser, IUpdatePost } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 
@@ -322,8 +322,21 @@ export const updatePost = async (post: IUpdatePost) => {
     }
 };
 
-export const updateProfile = (userId: string) => {
+export const updateProfile = async (user: IUser) => {
+    try {
+        const updatedProfile = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.userCollectionId, user.id, {
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            imageurl: user.imageUrl,
+            bio: user.bio
+        });
 
+        if (!updatedProfile) throw Error;
+        return updateProfile
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const deletePost = async (postId: string, imageId: string) => {

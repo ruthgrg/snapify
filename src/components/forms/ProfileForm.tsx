@@ -16,12 +16,16 @@ import { Input } from "@/components/ui/input";
 import { profileValidation } from "@/lib/validation";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../ui/shared/FileUploader";
+import { useQueryToUpdateProfileMutation } from "@/lib/react-query/queriesAndMutation";
 
 type profileFormProps = {
   user: IUser;
 };
 
 const ProfileForm = ({ user }: profileFormProps) => {
+  const { mutateAsync: updateProfile, isPending } =
+    useQueryToUpdateProfileMutation(user);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof profileValidation>>({
     resolver: zodResolver(profileValidation),
@@ -35,8 +39,14 @@ const ProfileForm = ({ user }: profileFormProps) => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof profileValidation>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof profileValidation>) {
+    console.log(values.file[0]);
+
+    // const updateProfile = await updateProfile({
+    //   name: values.name,
+    //   username: values.username,
+    //   imageUrl: values.file[0],
+    // });
   }
 
   return (
