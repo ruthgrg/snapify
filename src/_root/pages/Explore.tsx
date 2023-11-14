@@ -19,6 +19,8 @@ const Explore = () => {
     hasNextPage,
   } = useQueryGetInfinitePosts();
 
+  // posts?.documents.sort((a, b) => +b.likes.length - +a.likes.length);
+
   const userCtx = useUserContext();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
@@ -45,7 +47,7 @@ const Explore = () => {
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts =
     !shouldShowSearchResults &&
-    posts?.pages.every((item) => item.documents.length === 0);
+    posts?.pages.every((item) => item?.documents.length === 0);
 
   return (
     <div className="flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">

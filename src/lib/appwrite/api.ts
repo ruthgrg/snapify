@@ -173,6 +173,7 @@ export const deleteFile = async (fieldId: string) => {
     }
 };
 
+
 export const getAllPosts = async () => {
     try {
         const posts = databases.listDocuments(
@@ -320,6 +321,10 @@ export const updatePost = async (post: IUpdatePost) => {
         console.log(error);
     }
 };
+
+export const updateProfile = (userId: string) => {
+
+}
 
 export const deletePost = async (postId: string, imageId: string) => {
     if (postId || imageId) throw Error;
