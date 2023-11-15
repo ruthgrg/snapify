@@ -64,11 +64,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="sm:text-start text-center">
-            <p>🌿Capturing the essence of nature through my lens</p>
-            <p>
-              ✨"In every walk with nature, one recieves far more than he
-              seeks." - john Muir
-            </p>
+            <p>{userCtx.user.bio}</p>
           </div>
         </div>
       </div>

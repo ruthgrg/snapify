@@ -1,15 +1,17 @@
 import ProfileForm from "@/components/forms/ProfileForm";
 import { useUserContext } from "@/context/AuthContext";
+import { useQueryGetCurrentUser } from "@/lib/react-query/queriesAndMutation";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
   const userCtx = useUserContext();
   const navigate = useNavigate();
+  const { data: currentUser, isPending } = useQueryGetCurrentUser();
 
   useEffect(() => {
     if (!userCtx.isAuthenticated) return navigate("/");
-  }, [userCtx.isAuthenticated]);
+  }, [navigate, userCtx.isAuthenticated]);
 
   return (
     <div className="flex flex-1">
@@ -23,7 +25,7 @@ const UpdateProfile = () => {
           />
           <h2 className="h3-bold md:h2-bol text-left w-full">Edit profile</h2>
         </div>
-        <ProfileForm user={userCtx.user} />
+        <ProfileForm user={currentUser} />
       </div>
     </div>
   );

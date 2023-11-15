@@ -1,4 +1,3 @@
-import { IUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -17,14 +16,20 @@ import { profileValidation } from "@/lib/validation";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../ui/shared/FileUploader";
 import { useQueryToUpdateProfileMutation } from "@/lib/react-query/queriesAndMutation";
+import { Models } from "appwrite";
+import { useNavigate } from "react-router-dom";
+import { toast } from "../ui/use-toast";
+import { Loader } from "lucide-react";
 
 type profileFormProps = {
-  user: IUser;
+  user: Models.Document;
 };
 
 const ProfileForm = ({ user }: profileFormProps) => {
   const { mutateAsync: updateProfile, isPending } =
-    useQueryToUpdateProfileMutation(user);
+    useQueryToUpdateProfileMutation();
+
+  const navigate = useNavigate();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof profileValidation>>({
@@ -40,13 +45,15 @@ const ProfileForm = ({ user }: profileFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof profileValidation>) {
-    console.log(values.file[0]);
+    const updatedProfile = await updateProfile({
+      ...values,
+      userId: user.$id,
+      imageId: user.imageId,
+      imageUrl: user.imageUrl,
+    });
 
-    // const updateProfile = await updateProfile({
-    //   name: values.name,
-    //   username: values.username,
-    //   imageUrl: values.file[0],
-    // });
+    if (!updatedProfile) return toast({ title: "Please try again" });
+    return navigate(`/profile/${user.$id}`);
   }
 
   return (
@@ -136,7 +143,7 @@ const ProfileForm = ({ user }: profileFormProps) => {
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Username</FormLabel>
+              <FormLabel className="text-white">Bio</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Your bio"
@@ -160,7 +167,8 @@ const ProfileForm = ({ user }: profileFormProps) => {
             type="submit"
             className="bg-primary-500 hover:bg-primary-600 text-light-1 flex gap-2 whitespace-nowrap"
           >
-            Update
+            {isPending && "Loading... "}
+            {!isPending && "Update"}
           </Button>
         </div>
       </form>
@@ -169,3 +177,5 @@ const ProfileForm = ({ user }: profileFormProps) => {
 };
 
 export default ProfileForm;
+
+// Image by sara_guerra on Freepik

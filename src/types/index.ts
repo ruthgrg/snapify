@@ -47,3 +47,14 @@ export type IUpdatePost = {
     tags?: string
 }
 
+export type IUpdateProfile = {
+    file: File[],
+    name: string,
+    username: string,
+    email: string,
+    bio: string,
+    imageUrl: URL,
+    imageId: string
+    userId: string
+}
+

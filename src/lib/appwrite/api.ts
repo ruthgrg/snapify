@@ -1,6 +1,7 @@
 import { ID, Query } from "appwrite";
-import { INewPost, INewUser, IUpdatePost, IUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { UpdateProfile } from "@/_root/pages";
 
 
 export const createUserAccount = async (user: INewUser) => {
@@ -165,6 +166,7 @@ export const getFilePreview = (fieldId: string) => {
 };
 
 export const deleteFile = async (fieldId: string) => {
+    console.log('fieldId:', fieldId)
     try {
         await storage.deleteFile(appwriteConfig.storageId, fieldId);
         return { status: "ok" };
@@ -322,18 +324,60 @@ export const updatePost = async (post: IUpdatePost) => {
     }
 };
 
-export const updateProfile = async (user: IUser) => {
-    try {
-        const updatedProfile = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.userCollectionId, user.id, {
-            name: user.name,
-            username: user.username,
-            email: user.email,
-            imageurl: user.imageUrl,
-            bio: user.bio
-        });
+export const updateProfile = async (user: IUpdateProfile) => {
+    const hasFileToUpdate = user.file.length > 0;
+    console.log('user form update profile api', user)
 
-        if (!updatedProfile) throw Error;
-        return updateProfile
+    try {
+
+        let image = {
+            imageUrl: user.imageUrl,
+            imageId: user.imageId
+        };
+
+        if (hasFileToUpdate) {
+            //Upload image to storage
+            const uploadedFile = await uploadFile(user.file[0]);
+            if (!uploadedFile) throw Error;
+
+            // Get file url
+            const fileUrl = getFilePreview(uploadedFile.$id);
+
+            if (!fileUrl) {
+                await deleteFile(uploadedFile.$id);
+                throw Error;
+            }
+
+            image = { imageUrl: fileUrl, imageId: uploadedFile.$id };
+        }
+
+
+        const updatedProfile = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.userCollectionId, user.userId,
+            {
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                imageurl: image.imageUrl,
+                imageId: image.imageId,
+                bio: user.bio
+            }
+        );
+
+        if (!updatePost) {
+            // Delete new file that has been recently uploaded
+            if (hasFileToUpdate) {
+                await deleteFile(image.imageId);
+            }
+            // If no new file uploaded, just throw error
+            throw Error;
+        }
+
+        // Safely delete old file after successful update
+        if (hasFileToUpdate && user.imageId !== '1234') {
+            await deleteFile(user.imageId);
+        }
+
+        return updatedProfile;
     } catch (error) {
         console.log(error);
     }
