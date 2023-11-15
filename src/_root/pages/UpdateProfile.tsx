@@ -1,7 +1,7 @@
 import ProfileForm from "@/components/forms/ProfileForm";
 import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetCurrentUser } from "@/lib/react-query/queriesAndMutation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {

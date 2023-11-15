@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tansta
 import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getInfinitePostById, getPopularPosts, getPostById, getPostsById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUser } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
-import { Query } from 'appwrite';
+
 
 export const userCreateAccountMutation = () => {
     return useMutation({
@@ -34,6 +34,15 @@ export const useQueryCreatePostMutation = () => {
             })
         }
     })
+}
+
+export const useQueryToGetCurrentUser = () => {
+    return useQuery(
+        {
+            queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+            queryFn: getCurrentUser
+        }
+    )
 }
 
 export const useQueryToGetRecentPosts = () => {
@@ -122,10 +131,14 @@ export const useQueryToUpdateProfileMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (user: IUpdateProfile) => updateProfile(user),
-        onSuccess: (data) => {
+        onSuccess: async () => {
+
             queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_CURRENT_USER, data?.$id]
+                queryKey: [QUERY_KEYS.GET_CURRENT_USER]
             })
+
+            await getCurrentUser();
+
         }
     })
 }

@@ -19,7 +19,6 @@ import { useQueryToUpdateProfileMutation } from "@/lib/react-query/queriesAndMut
 import { Models } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { toast } from "../ui/use-toast";
-import { Loader } from "lucide-react";
 
 type profileFormProps = {
   user: Models.Document;
@@ -53,6 +52,7 @@ const ProfileForm = ({ user }: profileFormProps) => {
     });
 
     if (!updatedProfile) return toast({ title: "Please try again" });
+
     return navigate(`/profile/${user.$id}`);
   }
 
@@ -124,7 +124,7 @@ const ProfileForm = ({ user }: profileFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Username</FormLabel>
+              <FormLabel className="text-white">Email</FormLabel>
               <FormControl>
                 <Input
                   type="email"

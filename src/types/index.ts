@@ -58,3 +58,7 @@ export type IUpdateProfile = {
     userId: string
 }
 
+
+export type IUpdateAccount = {
+    name: string
+}

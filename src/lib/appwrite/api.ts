@@ -1,7 +1,6 @@
 import { ID, Query } from "appwrite";
-import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUser } from "@/types";
+import { INewPost, INewUser, IUpdateAccount, IUpdatePost, IUpdateProfile, IUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
-import { UpdateProfile } from "@/_root/pages";
 
 
 export const createUserAccount = async (user: INewUser) => {
@@ -31,6 +30,18 @@ export const createUserAccount = async (user: INewUser) => {
         return error;
     }
 };
+
+export const updateUserAccount = async (userDetails: IUpdateAccount) => {
+    try {
+        const updatedUserName = await account.updateName(userDetails.name);
+
+        if (!updatedUserName) throw Error;
+        return updatedUserName;
+
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 // ============================== SAVE USER TO DB
 export async function saveUserToDB(user: {
@@ -81,6 +92,7 @@ export const getCurrentUser = async () => {
         console.log(error);
     }
 };
+
 
 export const signOutAccount = async () => {
     try {
@@ -174,7 +186,6 @@ export const deleteFile = async (fieldId: string) => {
         console.log(error);
     }
 };
-
 
 export const getAllPosts = async () => {
     try {
@@ -363,7 +374,7 @@ export const updateProfile = async (user: IUpdateProfile) => {
             }
         );
 
-        if (!updatePost) {
+        if (!updatedProfile) {
             // Delete new file that has been recently uploaded
             if (hasFileToUpdate) {
                 await deleteFile(image.imageId);
@@ -376,6 +387,12 @@ export const updateProfile = async (user: IUpdateProfile) => {
         if (hasFileToUpdate && user.imageId !== '1234') {
             await deleteFile(user.imageId);
         }
+
+        const userAccount = {
+            name: user.name
+        }
+
+        await updateUserAccount(userAccount)
 
         return updatedProfile;
     } catch (error) {
