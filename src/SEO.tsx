@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Helmet } from "react-helmet-async";
 
 type SeoProps = {
@@ -7,12 +8,12 @@ type SeoProps = {
   type: string;
 };
 
-const Seo = ({ title, description, name, type }: SeoProps) => {
+const SEO = ({ title, description, name, type }: SeoProps) => {
   return (
     <Helmet>
       {/* Standard metadata tags */}
       <title>{title}</title>
-      <meta name="description" content={description} />
+      <meta name={name} content={description} />
       {/* End standard metadata tags */}
       {/* Facebook tags */}
       <meta property="og:type" content={type} />
@@ -29,4 +30,4 @@ const Seo = ({ title, description, name, type }: SeoProps) => {
   );
 };
 
-export default Seo;
+export default SEO;

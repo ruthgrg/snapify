@@ -29,12 +29,12 @@ const Profile = () => {
           />
         </div>
         <div className="max-sm:max-sm-flex">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 max-xs:flex-col">
             <h1 className="text-[18px] font-bold leading-[140%]">
               {userCtx.user.name}
             </h1>
             <Link to={`/update-profile/${userCtx.user.id}`}>
-              <button className="flex items-center gap-1 bg-dark-4 rounded-[8px] p-2">
+              <button className="flex items-center gap-1 bg-dark-4 rounded-[8px] p-2 max-xs:mb-2">
                 <img src="/assets/icons/edit-copy.svg" width={18} height={18} />
                 Edit profile
               </button>
