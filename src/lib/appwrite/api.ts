@@ -337,7 +337,6 @@ export const updatePost = async (post: IUpdatePost) => {
 
 export const updateProfile = async (user: IUpdateProfile) => {
     const hasFileToUpdate = user.file.length > 0;
-    console.log('user form update profile api', user)
 
     try {
 
@@ -368,7 +367,7 @@ export const updateProfile = async (user: IUpdateProfile) => {
                 name: user.name,
                 username: user.username,
                 email: user.email,
-                imageurl: image.imageUrl,
+                imageUrl: image.imageUrl,
                 imageId: image.imageId,
                 bio: user.bio
             }

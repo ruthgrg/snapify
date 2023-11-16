@@ -67,8 +67,6 @@ const AuthContexProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  console.log("Cuurent user from context api", user);
-
   const value = {
     user,
     isLoading,

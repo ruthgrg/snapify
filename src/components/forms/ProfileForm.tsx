@@ -19,12 +19,14 @@ import { useQueryToUpdateProfileMutation } from "@/lib/react-query/queriesAndMut
 import { Models } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { toast } from "../ui/use-toast";
+import { useUserContext } from "@/context/AuthContext";
 
 type profileFormProps = {
   user: Models.Document;
 };
 
 const ProfileForm = ({ user }: profileFormProps) => {
+  const userCtx = useUserContext();
   const { mutateAsync: updateProfile, isPending } =
     useQueryToUpdateProfileMutation();
 
@@ -52,6 +54,14 @@ const ProfileForm = ({ user }: profileFormProps) => {
     });
 
     if (!updatedProfile) return toast({ title: "Please try again" });
+    userCtx.setUser({
+      id: updatedProfile.$id,
+      name: updatedProfile.name,
+      username: updatedProfile.username,
+      email: updatedProfile.email,
+      imageUrl: updatedProfile.imageUrl,
+      bio: updatedProfile.bio,
+    });
 
     return navigate(`/profile/${user.$id}`);
   }

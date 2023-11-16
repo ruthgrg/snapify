@@ -137,8 +137,6 @@ export const useQueryToUpdateProfileMutation = () => {
                 queryKey: [QUERY_KEYS.GET_CURRENT_USER]
             })
 
-            await getCurrentUser();
-
         }
     })
 }
