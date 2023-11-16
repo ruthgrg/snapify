@@ -20,7 +20,7 @@ const RootLayout = () => {
   }, [navigate, userCtx.isAuthenticated]);
 
   if (isLoading) {
-    return <div></div>; // You can replace this with a spinner or any loading indicator
+    return <div></div>;
   }
 
   return (

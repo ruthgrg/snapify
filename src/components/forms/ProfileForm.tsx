@@ -16,17 +16,13 @@ import { profileValidation } from "@/lib/validation";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../ui/shared/FileUploader";
 import { useQueryToUpdateProfileMutation } from "@/lib/react-query/queriesAndMutation";
-import { Models } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { toast } from "../ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
 
-type profileFormProps = {
-  user: Models.Document;
-};
-
-const ProfileForm = ({ user }: profileFormProps) => {
+const ProfileForm = () => {
   const userCtx = useUserContext();
+  const user = userCtx.user;
   const { mutateAsync: updateProfile, isPending } =
     useQueryToUpdateProfileMutation();
 
@@ -48,7 +44,7 @@ const ProfileForm = ({ user }: profileFormProps) => {
   async function onSubmit(values: z.infer<typeof profileValidation>) {
     const updatedProfile = await updateProfile({
       ...values,
-      userId: user.$id,
+      userId: user.id,
       imageId: user.imageId,
       imageUrl: user.imageUrl,
     });
@@ -60,10 +56,11 @@ const ProfileForm = ({ user }: profileFormProps) => {
       username: updatedProfile.username,
       email: updatedProfile.email,
       imageUrl: updatedProfile.imageUrl,
+      imageId: updatedProfile.imageId,
       bio: updatedProfile.bio,
     });
 
-    return navigate(`/profile/${user.$id}`);
+    return navigate(`/profile/${user.id}`);
   }
 
   return (

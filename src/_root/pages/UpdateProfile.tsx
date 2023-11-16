@@ -1,9 +1,9 @@
 import ProfileForm from "@/components/forms/ProfileForm";
-
-import { useQueryGetCurrentUser } from "@/lib/react-query/queriesAndMutation";
+import { useUserContext } from "@/context/AuthContext";
 
 const UpdateProfile = () => {
-  const { data: currentUser } = useQueryGetCurrentUser();
+  const { user } = useUserContext();
+  console.log("data current user", user);
 
   return (
     <div className="flex flex-1">
@@ -17,7 +17,7 @@ const UpdateProfile = () => {
           />
           <h2 className="h3-bold md:h2-bol text-left w-full">Edit profile</h2>
         </div>
-        <ProfileForm user={currentUser} />
+        <ProfileForm />
       </div>
     </div>
   );

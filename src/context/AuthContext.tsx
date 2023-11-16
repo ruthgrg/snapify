@@ -9,6 +9,7 @@ const INITIAL_USER = {
   username: "",
   email: "",
   imageUrl: "",
+  imageId: "",
   bio: "",
 };
 
@@ -52,6 +53,7 @@ const AuthContexProvider = ({ children }: { children: React.ReactNode }) => {
           username: currentAccount.username,
           email: currentAccount.email,
           imageUrl: currentAccount.imageUrl,
+          imageId: currentAccount.imageId,
           bio: currentAccount.bio,
         });
         setIsAuthenticated(true);
@@ -75,6 +77,8 @@ const AuthContexProvider = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated,
     checkAuthUser,
   };
+
+  console.log(user);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
