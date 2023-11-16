@@ -1,9 +1,6 @@
 import ProfileForm from "@/components/forms/ProfileForm";
-import { useUserContext } from "@/context/AuthContext";
 
 const UpdateProfile = () => {
-  const { user } = useUserContext();
-
   return (
     <div className="flex flex-1">
       <div className="common-container">

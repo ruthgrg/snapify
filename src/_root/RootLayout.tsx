@@ -11,11 +11,12 @@ const RootLayout = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (userCtx.isAuthenticated) {
+    if (!userCtx.isAuthenticated) {
       setIsLoading(false);
+      return navigate("/sign-in");
     } else {
       setIsLoading(false);
-      return navigate("/");
+      navigate("/home");
     }
   }, [navigate, userCtx.isAuthenticated]);
 

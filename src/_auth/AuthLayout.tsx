@@ -1,22 +1,17 @@
 import { useUserContext } from "@/context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const AuthLayout = () => {
   const userCtx = useUserContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userCtx.isAuthenticated) {
-      <Navigate to={"/home"} />;
-      setIsLoading(false);
+      navigate("/home");
     }
-  }, [userCtx.isAuthenticated]);
-
-  if (isLoading) {
-    return <div></div>;
-  }
+  }, [navigate, userCtx.isAuthenticated]);
 
   return (
     <div className="flex w-full">
