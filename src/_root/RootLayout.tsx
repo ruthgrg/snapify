@@ -16,7 +16,6 @@ const RootLayout = () => {
       return navigate("/sign-in");
     } else {
       setIsLoading(false);
-      navigate("/home");
     }
   }, [navigate, userCtx.isAuthenticated]);
 

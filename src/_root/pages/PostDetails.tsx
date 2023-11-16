@@ -24,6 +24,7 @@ const PostDetails = () => {
           <img
             src={post?.imageUrl}
             alt="post"
+            loading="lazy"
             className="h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-dark-1;"
           />
           <div className="bg-dark-2 flex flex-col rounded-b-[30px] gap-5 lg:gap-7 flex-1 items-start p-8 ">
@@ -61,6 +62,7 @@ const PostDetails = () => {
                     <img
                       src="/assets/icons/edit.svg"
                       alt="edit"
+                      loading="lazy"
                       width={24}
                       height={24}
                     />

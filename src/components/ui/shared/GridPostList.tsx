@@ -29,6 +29,7 @@ const GridPostList = ({
             <img
               src={post.imageUrl}
               alt="post"
+              loading="lazy"
               className="h-full w-full object-cover"
             />
           </Link>

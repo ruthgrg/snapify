@@ -77,7 +77,7 @@ const AuthContexProvider = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated,
     checkAuthUser,
   };
-  console.log(user, isAuthenticated);
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

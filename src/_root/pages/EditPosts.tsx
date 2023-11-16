@@ -21,6 +21,7 @@ const EditPosts = () => {
           <img
             src="/assets/icons/add-post.svg"
             alt="add"
+            loading="lazy"
             width={36}
             height={36}
           />
