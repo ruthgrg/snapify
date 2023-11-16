@@ -3,7 +3,6 @@ import { useUserContext } from "@/context/AuthContext";
 
 const UpdateProfile = () => {
   const { user } = useUserContext();
-  console.log("data current user", user);
 
   return (
     <div className="flex flex-1">

@@ -20,11 +20,11 @@ const RootLayout = () => {
   }, [navigate, userCtx.isAuthenticated]);
 
   if (isLoading) {
-    return <div></div>;
+    return <div className="overflow-hidden"></div>;
   }
 
   return (
-    <div className="w-full md:flex overflow-scroll">
+    <div className="w-full md:flex overflow-scroll custom-scrollbar">
       <Topbar />
       <LeftSidebar />
       <section className="flex flex-1 h-full">

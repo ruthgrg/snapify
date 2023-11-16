@@ -29,9 +29,12 @@ const AllUsers = () => {
           allUsers.documents.map((user: Models.Document) => (
             <li
               key={user.$id}
-              className="w-[280px] h-[280px] lg:w-[300px] lg:h-[300px] bg-dark-4 flex justify-center items-center rounded-[8px]"
+              className="group w-[280px] h-[280px] lg:w-[300px] lg:h-[300px] bg-dark-4 flex justify-center items-center rounded-[8px]"
             >
               <UserCard user={user} />
+              <span className="hidden top-[355px] group-hover:unimplemented-feature_info">
+                Not yet implemented
+              </span>
             </li>
           ))}
       </ul>

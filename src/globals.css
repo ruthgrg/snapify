@@ -249,6 +249,10 @@
   .user-card {
     @apply flex-center flex-col gap-4 border border-dark-4 rounded-[20px] px-5 py-8;
   }
+
+  .unimplemented-feature_info {
+    @apply block absolute  bg-gray-800 text-white text-xs px-2 py-1 rounded-md mt-2;
+  }
 }
 
 @layer components {
@@ -283,5 +287,6 @@
   .shad-button_ghost {
     @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
   }
+
 }
 

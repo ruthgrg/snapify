@@ -45,16 +45,22 @@ const Profile = () => {
           </p>
           <div className="flex gap-5 my-4">
             <div className="">
-              <h3>{5}</h3>
+              <h3>{posts?.total}</h3>
               <p className="text-primary-500">Posts</p>
             </div>
-            <div>
+            <div className="group">
               <h3>{236}</h3>
               <p className="text-primary-500">Followers</p>
+              <span className="hidden group-hover:unimplemented-feature_info">
+                Not yet implemented
+              </span>
             </div>
-            <div>
+            <div className="group">
               <h3>{234}</h3>
               <p className="text-primary-500">Following</p>
+              <span className="hidden group-hover:unimplemented-feature_info">
+                Not yet implemented
+              </span>
             </div>
           </div>
           <div className="sm:text-start text-center">
@@ -65,7 +71,7 @@ const Profile = () => {
       <div className="flex flex-col items-center">
         <div className="flex justify-between items-center w-full max-w-7xl mt-16 mb-7">
           <h3 className="h3-bold md:h3-bold w-full">Posts</h3>
-          <div className="bg-dark-3 flex justify-center items-center gap-3 rounded-xl px-4 py-2 cursor-pointer">
+          <div className="group bg-dark-3 flex justify-center items-center gap-3 rounded-xl px-4 py-2 cursor-pointer">
             <p className="text-[12px] font-medium leading-[140%]">All</p>
             <img
               src="/assets/icons/filter.svg"
@@ -73,12 +79,15 @@ const Profile = () => {
               width={20}
               height={20}
             />
+            <span className="hidden group-hover:unimplemented-feature_info">
+              Not yet implemented
+            </span>
           </div>
         </div>
         {posts?.documents.length === 0 && (
           <div>
             No post available. If you want create one{" "}
-            <Link to="/CreatePost" className="underline text-primary-500">
+            <Link to="/create-Post" className="underline text-primary-500">
               Create post
             </Link>
           </div>

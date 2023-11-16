@@ -78,8 +78,6 @@ const AuthContexProvider = ({ children }: { children: React.ReactNode }) => {
     checkAuthUser,
   };
 
-  console.log(user);
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

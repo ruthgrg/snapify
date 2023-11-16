@@ -13,11 +13,7 @@ import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
 
 const Explore = () => {
-  const {
-    data: posts,
-    fetchNextPage,
-    hasNextPage,
-  } = useQueryGetInfinitePosts();
+  const { data: posts, fetchNextPage } = useQueryGetInfinitePosts();
 
   // posts?.documents.sort((a, b) => +b.likes.length - +a.likes.length);
 
@@ -68,7 +64,7 @@ const Explore = () => {
       </div>
       <div className="flex justify-between items-center w-full max-w:5xl mt-16 mb-7">
         <h3 className="h3-bold md:h3-bold w-full">Popular Today</h3>
-        <div className="bg-dark-3 flex justify-center items-center gap-3 rounded-xl px-4 py-2 cursor-pointer">
+        <div className="group bg-dark-3 flex justify-center items-center gap-3 rounded-xl px-4 py-2 cursor-pointer">
           <p className="text-[12px] font-medium leading-[140%]">All</p>
           <img
             src="/assets/icons/filter.svg"
@@ -76,6 +72,9 @@ const Explore = () => {
             width={20}
             height={20}
           />
+          <span className="hidden group-hover:unimplemented-feature_info">
+            Not yet implemented
+          </span>
         </div>
       </div>
 
