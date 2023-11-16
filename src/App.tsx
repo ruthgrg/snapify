@@ -19,8 +19,11 @@ import CreatePost from "./_root/pages/CreatePost";
 import Entry from "./_auth/forms/Entry";
 import { useUserContext } from "./context/AuthContext";
 import { Loader } from "lucide-react";
+import { HelmetProvider } from "react-helmet-async";
 
 const App = () => {
+  const helmetContext = {};
+
   const userCtx = useUserContext();
   if (userCtx.isLoading) {
     return (
@@ -31,31 +34,33 @@ const App = () => {
   }
 
   return (
-    <main className="flex h-screen">
-      <Routes>
-        {/* public routes */}
-        <Route element={<AuthLayout />}>
-          <Route index element={<Entry />} />
-          <Route path="/sign-in" element={<SigninForm />} />
-          <Route path="/sign-up" element={<SignupForm />} />
-        </Route>
+    <HelmetProvider context={helmetContext}>
+      <main className="flex h-screen">
+        <Routes>
+          {/* public routes */}
+          <Route element={<AuthLayout />}>
+            <Route index element={<Entry />} />
+            <Route path="/sign-in" element={<SigninForm />} />
+            <Route path="/sign-up" element={<SignupForm />} />
+          </Route>
 
-        {/* private routes */}
-        <Route element={<RootLayout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/saved" element={<Saved />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/update-post/:id" element={<EditPost />} />
-          <Route path="/posts/:id" element={<PostDetails />} />
-          <Route path="/profile/:id/*" element={<Profile />} />
-          <Route path="/update-profile/:id" element={<UpdateProfile />} />
-          <Route path="/all-users" element={<AllUsers />} />
-        </Route>
-      </Routes>
+          {/* private routes */}
+          <Route element={<RootLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/saved" element={<Saved />} />
+            <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/update-post/:id" element={<EditPost />} />
+            <Route path="/posts/:id" element={<PostDetails />} />
+            <Route path="/profile/:id/*" element={<Profile />} />
+            <Route path="/update-profile/:id" element={<UpdateProfile />} />
+            <Route path="/all-users" element={<AllUsers />} />
+          </Route>
+        </Routes>
 
-      <Toaster />
-    </main>
+        <Toaster />
+      </main>
+    </HelmetProvider>
   );
 };
 
