@@ -1,21 +1,9 @@
 import Loader from "@/components/ui/shared/Loader";
 import UserCard from "@/components/ui/shared/userCard";
-import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetAllUsers } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const AllUsers = () => {
-  const userCtx = useUserContext();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!userCtx.isAuthenticated) {
-      return navigate("/");
-    }
-  }, [navigate, userCtx.isAuthenticated]);
-
   const { data: allUsers, isPending } = useQueryGetAllUsers();
   if (isPending) {
     return (

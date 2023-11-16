@@ -2,18 +2,12 @@ import GridPostList from "@/components/ui/shared/GridPostList";
 import Loader from "@/components/ui/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
 import { useQueryGetPostsById } from "@/lib/react-query/queriesAndMutation";
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import CreatePost from "./CreatePost";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const userCtx = useUserContext();
-  const navigate = useNavigate();
-  const { data: posts, isFetching } = useQueryGetPostsById(userCtx.user.id);
 
-  useEffect(() => {
-    if (!userCtx.isAuthenticated) return navigate("/");
-  }, [navigate, userCtx.isAuthenticated]);
+  const { data: posts, isFetching } = useQueryGetPostsById(userCtx.user.id);
 
   if (isFetching) {
     return (

@@ -30,9 +30,6 @@ const Explore = () => {
   const { inView } = useInView();
 
   useEffect(() => {
-    if (!userCtx.isAuthenticated) {
-      return navigate("/");
-    }
     if (inView && !searchValue) fetchNextPage();
   }, [fetchNextPage, inView, navigate, searchValue, userCtx.isAuthenticated]);
 

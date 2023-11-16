@@ -1,17 +1,9 @@
 import ProfileForm from "@/components/forms/ProfileForm";
-import { useUserContext } from "@/context/AuthContext";
+
 import { useQueryGetCurrentUser } from "@/lib/react-query/queriesAndMutation";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
-  const userCtx = useUserContext();
-  const navigate = useNavigate();
-  const { data: currentUser, isPending } = useQueryGetCurrentUser();
-
-  useEffect(() => {
-    if (!userCtx.isAuthenticated) return navigate("/");
-  }, [navigate, userCtx.isAuthenticated]);
+  const { data: currentUser } = useQueryGetCurrentUser();
 
   return (
     <div className="flex flex-1">
