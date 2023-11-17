@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getPostById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getPostById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost, IUpdateProfile } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
-import { Models } from 'appwrite';
+
 
 
 export const userCreateAccountMutation = () => {

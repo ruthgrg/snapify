@@ -92,7 +92,7 @@ const Profile = () => {
             </Link>
           </div>
         )}
-        <GridPostList posts={posts?.documents} />
+        <GridPostList posts={posts?.documents ?? []} />
       </div>
     </div>
   );

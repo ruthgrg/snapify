@@ -7,14 +7,12 @@ import {
   useQueryGetAllPosts,
   useQueryGetSeachedPosts,
 } from "@/lib/react-query/queriesAndMutation";
-import { Models } from "appwrite";
 import { useState } from "react";
 
 const Explore = () => {
   const { data: posts, isLoading: isPostLoading } = useQueryGetAllPosts();
   const [searchValue, setSearchValue] = useState("");
   const debouncedValue = useDebounce(searchValue, 600);
-  console.log("debouncedValue", debouncedValue);
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useQueryGetSeachedPosts(debouncedValue);
 
