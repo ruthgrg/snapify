@@ -15,8 +15,7 @@ const GridPostList = ({
   showStats = true,
 }: GridPostListProps) => {
   const userCtx = useUserContext();
-
-  posts.sort((a, b) => b.likes.length - a.likes.length);
+  console.log(posts);
 
   return (
     <ul className="w-full h-full self-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl p-2 ">

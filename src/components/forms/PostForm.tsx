@@ -31,7 +31,7 @@ type PostFormProps = {
 
 const PostForm = ({ post, action }: PostFormProps) => {
   const userCtx = useUserContext();
-  const { mutateAsync: createPost, ispending: createPostPending } =
+  const { mutateAsync: createPost, isPending: createPostPending } =
     useQueryCreatePostMutation();
   const { mutateAsync: updatePost, isPending: updatePostPending } =
     useQueryToUpdatePostMutation();

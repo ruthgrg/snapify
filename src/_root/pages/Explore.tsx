@@ -2,32 +2,21 @@ import { Input } from "@/components/ui/input";
 import GridPostList from "@/components/ui/shared/GridPostList";
 import Loader from "@/components/ui/shared/Loader";
 import SearchResults from "@/components/ui/shared/SearchResults";
-import { useUserContext } from "@/context/AuthContext";
 import useDebounce from "@/hooks/useDebounce";
 import {
-  useQueryGetInfinitePosts,
+  useQueryGetAllPosts,
   useQueryGetSeachedPosts,
 } from "@/lib/react-query/queriesAndMutation";
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { useNavigate } from "react-router-dom";
+import { Models } from "appwrite";
+import { useState } from "react";
 
 const Explore = () => {
-  const { data: posts, fetchNextPage } = useQueryGetInfinitePosts();
-
-  // posts?.documents.sort((a, b) => +b.likes.length - +a.likes.length);
-
-  const userCtx = useUserContext();
-  const navigate = useNavigate();
+  const { data: posts, isLoading: isPostLoading } = useQueryGetAllPosts();
   const [searchValue, setSearchValue] = useState("");
   const debouncedValue = useDebounce(searchValue, 600);
-  const { data: SearchPosts, isFetching: isSearchFetching } =
+  console.log("debouncedValue", debouncedValue);
+  const { data: searchedPosts, isFetching: isSearchFetching } =
     useQueryGetSeachedPosts(debouncedValue);
-  const { inView } = useInView();
-
-  useEffect(() => {
-    if (inView && !searchValue) fetchNextPage();
-  }, [fetchNextPage, inView, navigate, searchValue, userCtx.isAuthenticated]);
 
   if (!posts) {
     return (
@@ -38,9 +27,6 @@ const Explore = () => {
   }
 
   const shouldShowSearchResults = searchValue !== "";
-  const shouldShowPosts =
-    !shouldShowSearchResults &&
-    posts?.pages.every((item) => item?.documents.length === 0);
 
   return (
     <div className="flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">
@@ -84,16 +70,12 @@ const Explore = () => {
         {shouldShowSearchResults ? (
           <SearchResults
             isSearchFetching={isSearchFetching}
-            searchedPosts={SearchPosts}
+            searchedPosts={searchedPosts?.documents ?? []}
           />
-        ) : shouldShowPosts ? (
-          <p className="text-light-4 mt-10 text-center w-full">
-            End of the Posts
-          </p>
+        ) : isPostLoading ? (
+          <Loader />
         ) : (
-          posts.pages.map((item, index) => (
-            <GridPostList key={`pages-${index}`} posts={item.documents} />
-          ))
+          <GridPostList posts={posts.documents} />
         )}
       </div>
     </div>

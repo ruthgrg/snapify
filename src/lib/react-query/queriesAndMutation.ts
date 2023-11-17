@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getInfinitePostById, getPopularPosts, getPostById, getPostsById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getInfinitePost, getPostById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost, IUpdateProfile } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
+import { Models } from 'appwrite';
 
 
 export const userCreateAccountMutation = () => {
+
     return useMutation({
         mutationFn: (user: INewUser) => createUserAccount(user)
     })
@@ -156,19 +159,31 @@ export const useQueryGetPostById = (postId: string) => {
     })
 }
 
-export const useQueryGetInfinitePosts = () => {
-    return useInfiniteQuery({
-        queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
-        queryFn: getInfinitePost,
-        getNextPageParam: (lastPage: any) => {
-            if (lastPage && lastPage.documents.length === 0) return null;
-            const lastId = lastPage.documents[lastPage.documents.length - 1].$id
+// export const useQueryGetInfinitePosts = () => {
+//     return useInfiniteQuery({
+//         queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+//         queryFn: getInfinitePost,
+//         getNextPageParam: (lastPage: Models.Document) => {
+//             console.log(lastPage)
+//             if (lastPage && lastPage.documents.length === 0) return null;
+//             const lastId = lastPage.documents[lastPage.documents.length - 1].$id
+//             console.log(lastId)
 
-            return lastId;
-        }
+//             return lastId;
+//         },
+
+//     });
+
+// }
+
+export const useQueryGetAllPosts = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_ALL_POSTS],
+        queryFn: getAllPosts
     });
-
 }
+
+
 
 export const useQueryGetPostsById = (userId: string) => {
 

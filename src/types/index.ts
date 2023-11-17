@@ -54,7 +54,7 @@ export type IUpdateProfile = {
     username: string,
     email: string,
     bio: string,
-    imageUrl: URL,
+    imageUrl: string,
     imageId: string
     userId: string
 }

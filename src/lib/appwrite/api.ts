@@ -1,5 +1,5 @@
-import { ID, Query } from "appwrite";
-import { INewPost, INewUser, IUpdateAccount, IUpdatePost, IUpdateProfile, IUser } from "@/types";
+import { ID, Models, Query } from "appwrite";
+import { INewPost, INewUser, IUpdateAccount, IUpdatePost, IUpdateProfile } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 
@@ -358,7 +358,7 @@ export const updateProfile = async (user: IUpdateProfile) => {
                 throw Error;
             }
 
-            image = { imageUrl: fileUrl, imageId: uploadedFile.$id };
+            image = { imageUrl: fileUrl.toString(), imageId: uploadedFile.$id };
         }
 
 
@@ -418,12 +418,14 @@ export const getInfinitePost = async ({
 }: {
     pageParams: number;
 }) => {
-    const queries = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+    console.log('pageParams', pageParams)
+    const queries = [Query.orderDesc("$updatedAt"), Query.limit(2)];
 
     if (pageParams) {
         queries.push(Query.cursorAfter(pageParams.toString()));
     }
 
+    console.log('queries', queries)
     try {
         const posts = await databases.listDocuments(
             appwriteConfig.databaseId,
@@ -432,12 +434,13 @@ export const getInfinitePost = async ({
         );
 
         if (!posts) throw Error;
-
+        console.log(posts)
         return posts;
     } catch (error) {
         console.log(error);
     }
 };
+
 
 export const getAllpostsById = async (userId: string) => {
     const queries = [Query.equal('creator', userId)]
@@ -458,13 +461,11 @@ export const getAllpostsById = async (userId: string) => {
 
 export const getSearchPosts = async (searchTerm: string) => {
     try {
-        const searchedPosts = databases.listDocuments(
+        const searchedPosts = await databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
             [Query.search("caption", searchTerm)]
         );
-
-        if (!searchedPosts) throw Error;
 
         return searchedPosts;
     } catch (error) {
