@@ -29,7 +29,7 @@ const App = () => {
   const userCtx = useUserContext();
   if (userCtx.isLoading) {
     return (
-      <div className="flex justify-center items-center bg-black">
+      <div className="flex justify-center items-center bg-black h-[100vh] w-[100vw]">
         <Loader />
       </div>
     );
@@ -38,7 +38,7 @@ const App = () => {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center items-center w-full">
+        <div className="flex justify-center items-center">
           <Loader />
         </div>
       }

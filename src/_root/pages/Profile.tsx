@@ -11,7 +11,7 @@ const Profile = () => {
 
   if (isFetching) {
     return (
-      <div className="flex justify-center items-center w-full">
+      <div className="flex justify-center items-center w-[100%] h-[100vh]">
         <Loader />
       </div>
     );

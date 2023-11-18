@@ -8,7 +8,7 @@ const AllUsers = () => {
 
   if (isUserLoading) {
     return (
-      <div className="flex justify-center items-center w-full h-full">
+      <div className="flex justify-center items-center w-[100%] h-[100vh]">
         <Loader />
       </div>
     );

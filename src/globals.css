@@ -9,9 +9,16 @@
     @apply box-border list-none p-0 m-0 scroll-smooth;
   }
 
+  html {
+    background-color: #000000;
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-dark-1 text-white min-h-screen font-inter;
   }
+
+
 }
 
 @layer utilities {

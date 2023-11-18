@@ -14,11 +14,11 @@ const RootLayout = () => {
     if (!userCtx.isAuthenticated) {
       return navigate("/sign-in");
     }
-  }, [navigate, userCtx.isAuthenticated]);
+  }, [navigate, userCtx.isAuthenticated, userCtx.isLoading]);
 
   if (userCtx.isLoading) {
     return (
-      <div className="flex justify-center items-center w-full h-full">
+      <div className="flex justify-center items-center w-[100%] h-[100vh]">
         <Loader />
       </div>
     );
