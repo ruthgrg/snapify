@@ -3,17 +3,15 @@ import LeftSidebar from "@/components/ui/shared/LeftSidebar";
 import Loader from "@/components/ui/shared/Loader";
 import Topbar from "@/components/ui/shared/Topbar";
 import { useUserContext } from "@/context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const RootLayout = () => {
   const navigate = useNavigate();
   const userCtx = useUserContext();
-  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!userCtx.isAuthenticated) {
-      // setIsLoading(false);
       return navigate("/sign-in");
     }
   }, [navigate, userCtx.isAuthenticated]);
