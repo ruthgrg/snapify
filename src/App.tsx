@@ -20,6 +20,7 @@ import Entry from "./_auth/forms/Entry";
 import { useUserContext } from "./context/AuthContext";
 import { Loader } from "lucide-react";
 import { HelmetProvider } from "react-helmet-async";
+import PageNotFound from "./_root/pages/PageNotFound";
 
 const App = () => {
   const helmetContext = {};
@@ -56,6 +57,8 @@ const App = () => {
             <Route path="/update-profile/:id" element={<UpdateProfile />} />
             <Route path="/all-users" element={<AllUsers />} />
           </Route>
+          <Route />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
 
         <Toaster />
