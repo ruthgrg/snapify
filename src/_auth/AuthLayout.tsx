@@ -1,7 +1,7 @@
+import Loader from "@/components/ui/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
 import SEO from "@/SEO";
 import { useEffect } from "react";
-// import { Helmet } from "react-helmet-async";
 
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -15,6 +15,14 @@ const AuthLayout = () => {
     }
   }, [navigate, userCtx.isAuthenticated]);
 
+  if (userCtx.isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <SEO
@@ -23,12 +31,6 @@ const AuthLayout = () => {
         name="Snapgram"
         type="Social media similar to instagram"
       />
-      {/* <Helmet>
-        <meta charSet="utf-8" />
-        <title>Social media app</title>
-        <meta name="description" />
-        <meta aria-description="Snapgram is a dynamic and visually stunning React-powered social media app" />
-      </Helmet> */}
       <div className="flex w-full">
         <div className="flex flex-1 w-full ">
           <section className="flex flex-1 justify-center items-center flex-col py-10">

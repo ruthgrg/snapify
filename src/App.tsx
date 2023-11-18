@@ -21,6 +21,7 @@ import { useUserContext } from "./context/AuthContext";
 import { Loader } from "lucide-react";
 import { HelmetProvider } from "react-helmet-async";
 import PageNotFound from "./_root/pages/PageNotFound";
+import { Suspense } from "react";
 
 const App = () => {
   const helmetContext = {};
@@ -35,35 +36,43 @@ const App = () => {
   }
 
   return (
-    <HelmetProvider context={helmetContext}>
-      <main className="flex h-screen">
-        <Routes>
-          {/* public routes */}
-          <Route element={<AuthLayout />}>
-            <Route index element={<Entry />} />
-            <Route path="/sign-in" element={<SigninForm />} />
-            <Route path="/sign-up" element={<SignupForm />} />
-          </Route>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center w-full">
+          <Loader />
+        </div>
+      }
+    >
+      <HelmetProvider context={helmetContext}>
+        <main className="flex h-screen">
+          <Routes>
+            {/* public routes */}
+            <Route element={<AuthLayout />}>
+              <Route index element={<Entry />} />
+              <Route path="/sign-in" element={<SigninForm />} />
+              <Route path="/sign-up" element={<SignupForm />} />
+            </Route>
 
-          {/* private routes */}
-          <Route element={<RootLayout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/saved" element={<Saved />} />
-            <Route path="/create-post" element={<CreatePost />} />
-            <Route path="/update-post/:id" element={<EditPost />} />
-            <Route path="/posts/:id" element={<PostDetails />} />
-            <Route path="/profile/:id/*" element={<Profile />} />
-            <Route path="/update-profile/:id" element={<UpdateProfile />} />
-            <Route path="/all-users" element={<AllUsers />} />
-          </Route>
-          <Route />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+            {/* private routes */}
+            <Route element={<RootLayout />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/explore" element={<Explore />} />
+              <Route path="/saved" element={<Saved />} />
+              <Route path="/create-post" element={<CreatePost />} />
+              <Route path="/update-post/:id" element={<EditPost />} />
+              <Route path="/posts/:id" element={<PostDetails />} />
+              <Route path="/profile/:id/*" element={<Profile />} />
+              <Route path="/update-profile/:id" element={<UpdateProfile />} />
+              <Route path="/all-users" element={<AllUsers />} />
+            </Route>
+            <Route />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
 
-        <Toaster />
-      </main>
-    </HelmetProvider>
+          <Toaster />
+        </main>
+      </HelmetProvider>
+    </Suspense>
   );
 };
 

@@ -5,14 +5,17 @@ import { useParams } from "react-router-dom";
 
 const EditPosts = () => {
   const { id } = useParams();
-  const { data: post, isPending } = useQueryGetPostById(id || "");
+  const { data: post, isLoading: isPostLoading } = useQueryGetPostById(
+    id || ""
+  );
 
-  if (isPending)
+  if (isPostLoading) {
     return (
-      <div>
+      <div className="flex justify-center items-center w-full h-full">
         <Loader />
       </div>
     );
+  }
 
   return (
     <div className="flex flex-1">

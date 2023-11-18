@@ -1,5 +1,6 @@
 import Bottombar from "@/components/ui/shared/Bottombar";
 import LeftSidebar from "@/components/ui/shared/LeftSidebar";
+import Loader from "@/components/ui/shared/Loader";
 import Topbar from "@/components/ui/shared/Topbar";
 import { useUserContext } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
@@ -8,19 +9,21 @@ import { Outlet, useNavigate } from "react-router-dom";
 const RootLayout = () => {
   const navigate = useNavigate();
   const userCtx = useUserContext();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!userCtx.isAuthenticated) {
-      setIsLoading(false);
+      // setIsLoading(false);
       return navigate("/sign-in");
-    } else {
-      setIsLoading(false);
     }
   }, [navigate, userCtx.isAuthenticated]);
 
-  if (isLoading) {
-    return <div className="overflow-hidden"></div>;
+  if (userCtx.isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <Loader />
+      </div>
+    );
   }
 
   return (

@@ -16,7 +16,7 @@ const Explore = () => {
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useQueryGetSeachedPosts(debouncedValue);
 
-  if (!posts) {
+  if (isPostLoading) {
     return (
       <div className="flex justify-center items-center w-full h-full">
         <Loader />
@@ -73,7 +73,7 @@ const Explore = () => {
         ) : isPostLoading ? (
           <Loader />
         ) : (
-          <GridPostList posts={posts.documents} />
+          <GridPostList posts={posts?.documents ?? []} />
         )}
       </div>
     </div>

@@ -158,6 +158,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
           <Button
             type="button"
             className="h-12 bg-dark-4 text-light-1 flex gap-2 px-5 "
+            onClick={() => navigate(-1)}
           >
             Cancel
           </Button>

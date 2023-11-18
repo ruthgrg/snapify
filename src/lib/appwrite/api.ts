@@ -178,10 +178,11 @@ export const getFilePreview = (fieldId: string) => {
 };
 
 export const deleteFile = async (fieldId: string) => {
-    console.log('fieldId:', fieldId)
+
     try {
-        await storage.deleteFile(appwriteConfig.storageId, fieldId);
-        return { status: "ok" };
+        const deletedPost = await storage.deleteFile(appwriteConfig.storageId, fieldId);
+        if (!deletedPost) throw Error;
+        return { deletedPost: deletedPost, status: "ok" };
     } catch (error) {
         console.log(error);
     }
@@ -400,18 +401,21 @@ export const updateProfile = async (user: IUpdateProfile) => {
 }
 
 export const deletePost = async (postId: string, imageId: string) => {
-    if (postId || imageId) throw Error;
+    try {
+        const deletedPost = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.postCollectionId,
+            postId
+        );
+        const deletedImage = await deleteFile(imageId);
 
-    const deletedPost = await databases.deleteDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.postCollectionId,
-        postId
-    );
+        if (!deletedPost || !deletedImage) throw Error;
 
-    if (!deletedPost) throw Error;
-
-    return { status: "ok", message: "Successfully deleted" };
-};
+        return { status: 200, message: 'successful' };
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const getInfinitePost = async ({
     pageParams,

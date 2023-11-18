@@ -23,7 +23,8 @@ const SigninForm = () => {
   const { toast } = useToast();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-  const { mutateAsync: signInAccount, isPending } = userSigninMutation();
+  const { mutateAsync: signInAccount, isPending: userLoadingPending } =
+    userSigninMutation();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof signinValidationSchema>>({
@@ -44,7 +45,7 @@ const SigninForm = () => {
 
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account" });
-        navigate("/");
+        navigate("/sign-in");
         return;
       }
 
@@ -60,6 +61,14 @@ const SigninForm = () => {
       console.log(error);
     }
   };
+
+  if (isUserLoading) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -113,7 +122,7 @@ const SigninForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isPending || isUserLoading ? (
+            {userLoadingPending || isUserLoading ? (
               <div className="flex-center gap-3">
                 <Loader /> Loading...
               </div>

@@ -2,22 +2,41 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/shared/Loader";
 import PostStats from "@/components/ui/shared/PostStats";
 import { useUserContext } from "@/context/AuthContext";
-import { useQueryGetPostById } from "@/lib/react-query/queriesAndMutation";
+import {
+  useQueryGetPostById,
+  useQueryToDeletePostMutation,
+} from "@/lib/react-query/queriesAndMutation";
 import { multiFormatDateString } from "@/lib/utils";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const PostDetails = () => {
   const { id } = useParams();
-  const { data: post, isPending } = useQueryGetPostById(id || "");
+  const navigate = useNavigate();
   const userCtx = useUserContext();
+  const { data: post, isLoading: isPostLoading } = useQueryGetPostById(
+    id || ""
+  );
+  const { mutateAsync: deletePost } = useQueryToDeletePostMutation();
 
-  const handleDeletePost = () => {
-    console.log("deleted");
+  const handleDeletePost = async () => {
+    const deletedPost = await deletePost({
+      postId: post?.$id || "",
+      imageId: post?.imageId,
+    });
+    if (deletedPost) return navigate("/home");
   };
+
+  if (isPostLoading) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col flex-1 gap 10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar items-center">
-      {isPending ? (
+      {isPostLoading ? (
         <Loader />
       ) : (
         <div className="bg-dark-1 w-full max-w-5xl rounded-[30px] flex-col flex xl:flex-row border border-dark-4 xl:rounded-1.[24px]">

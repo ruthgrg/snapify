@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { createPost, createUserAccount, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getPostById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavePost, getAllPosts, getAllUsers, getAllpostsById, getCurrentUser, getPostById, getSavedPosts, getSearchPosts, likePost, savePost, signInAccount, signOutAccount, updatePost, updateProfile } from '../appwrite/api'
 import { INewPost, INewUser, IUpdatePost, IUpdateProfile } from '@/types'
 import { QUERY_KEYS } from "./queryKeys";
 
@@ -37,23 +37,6 @@ export const useQueryCreatePostMutation = () => {
             })
         }
     })
-}
-
-export const useQueryToGetCurrentUser = () => {
-    return useQuery(
-        {
-            queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-            queryFn: getCurrentUser
-        }
-    )
-}
-
-export const useQueryToGetRecentPosts = () => {
-
-    return useQuery({
-        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-        queryFn: getAllPosts
-    });
 }
 
 export const useQueryToLikePostMutation = () => {
@@ -118,6 +101,26 @@ export const useQueryToDeleteSavedPostMutation = () => {
     });
 }
 
+export const useQueryToDeletePostMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ postId, imageId }: { postId: string, imageId: string }) => deletePost(postId, imageId),
+        onSuccess: () => {
+
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_RECENT_POSTS]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_CURRENT_USER]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_POSTS]
+            })
+        }
+
+    });
+}
+
 export const useQueryToUpdatePostMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -142,6 +145,23 @@ export const useQueryToUpdateProfileMutation = () => {
 
         }
     })
+}
+
+export const useQueryToGetCurrentUser = () => {
+    return useQuery(
+        {
+            queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+            queryFn: getCurrentUser
+        }
+    )
+}
+
+export const useQueryToGetRecentPosts = () => {
+
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+        queryFn: getAllPosts
+    });
 }
 
 export const useQueryGetCurrentUser = () => {

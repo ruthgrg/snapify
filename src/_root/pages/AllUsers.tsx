@@ -4,10 +4,11 @@ import { useQueryGetAllUsers } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
 
 const AllUsers = () => {
-  const { data: allUsers, isPending } = useQueryGetAllUsers();
-  if (isPending) {
+  const { data: allUsers, isLoading: isUserLoading } = useQueryGetAllUsers();
+
+  if (isUserLoading) {
     return (
-      <div className="flex justify-center items-center w-full">
+      <div className="flex justify-center items-center w-full h-full">
         <Loader />
       </div>
     );
@@ -20,7 +21,6 @@ const AllUsers = () => {
           alt="allUsers"
           width={36}
           height={36}
-          // className="w-[24px] h-[24px]"
         />
         <h1 className="h3-bold md:h2-bol text-left w-full">All Users</h1>
       </div>
@@ -29,10 +29,10 @@ const AllUsers = () => {
           allUsers.documents.map((user: Models.Document) => (
             <li
               key={user.$id}
-              className="group w-[280px] h-[280px] lg:w-[300px] lg:h-[300px] bg-dark-4 flex justify-center items-center rounded-[8px]"
+              className="group relative  w-[280px] h-[280px] lg:w-[300px] lg:h-[300px] bg-dark-4 flex justify-center items-center rounded-[8px]"
             >
               <UserCard user={user} />
-              <span className="hidden top-[355px] group-hover:unimplemented-feature_info">
+              <span className="hidden lg:top-[250px] top-[235px] group-hover:unimplemented-feature_info">
                 Not yet implemented
               </span>
             </li>

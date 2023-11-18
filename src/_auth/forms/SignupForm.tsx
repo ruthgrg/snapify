@@ -25,7 +25,7 @@ import { useUserContext } from "@/context/AuthContext";
 const SignupForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { checkAuthUser } = useUserContext();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const { mutateAsync: createUserAccount, isPending: isCreateAccountPending } =
     userCreateAccountMutation();
 
@@ -74,6 +74,14 @@ const SignupForm = () => {
       console.log(error);
     }
   };
+
+  if (isUserLoading) {
+    return (
+      <div className="flex justify-center items-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
