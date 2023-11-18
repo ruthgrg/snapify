@@ -25,10 +25,10 @@ const RootLayout = () => {
   }
 
   return (
-    <div className="w-full md:flex overflow-scroll custom-scrollbar">
+    <div className="w-full md:flex">
       <Topbar />
       <LeftSidebar />
-      <section className="flex flex-1 h-full">
+      <section className="md:ml-[270px] pb-[82px] md:pb-0 flex flex-1">
         <Outlet />
       </section>
       <Bottombar />

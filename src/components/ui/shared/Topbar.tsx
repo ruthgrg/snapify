@@ -17,7 +17,7 @@ const Topbar = () => {
   }, [isSuccess]);
 
   return (
-    <section className="topbar">
+    <section className="topbar overflow-hidden">
       <div className="flex-between py-4 px-5">
         <Link to="/" className="flex-between py-4 px-5">
           <img

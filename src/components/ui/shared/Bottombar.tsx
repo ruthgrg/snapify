@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 const Bottombar = () => {
   const { pathname } = useLocation();
   return (
-    <section className="bottom-bar">
+    <section className="bottom-bar overflow-hidden">
       {bottombarLinks.map((link: INavLink) => {
         const isActive = pathname === link.route;
         return (

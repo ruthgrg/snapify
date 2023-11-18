@@ -44,7 +44,7 @@ const App = () => {
       }
     >
       <HelmetProvider context={helmetContext}>
-        <main className="flex h-screen">
+        <main className="flex min-h-screen">
           <Routes>
             {/* public routes */}
             <Route element={<AuthLayout />}>
