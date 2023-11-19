@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Entry = () => {
   return (
-    <div className="bg-black flex flex-col text-primary-500 gap-3">
+    <div className="bg-black flex flex-col items-center justify-center text-primary-500 gap-3 w-screen h-[100%]">
       <Link to="/sign-in">
         Click here to{" "}
         <span className="text-decoration-line: underline">sign in</span>
