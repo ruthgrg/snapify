@@ -44,18 +44,18 @@ const Profile = () => {
             @{userCtx.user.username}
           </p>
           <div className="flex gap-5 my-4">
-            <div className="">
+            <div className="flex flex-col items-center">
               <h3>{posts?.total}</h3>
               <p className="text-primary-500">Posts</p>
             </div>
-            <div className="group">
+            <div className="flex flex-col items-center group">
               <h3>{236}</h3>
               <p className="text-primary-500">Followers</p>
               <span className="hidden group-hover:unimplemented-feature_info">
                 Not yet implemented
               </span>
             </div>
-            <div className="group">
+            <div className="flex flex-col items-center group">
               <h3>{234}</h3>
               <p className="text-primary-500">Following</p>
               <span className="hidden group-hover:unimplemented-feature_info">

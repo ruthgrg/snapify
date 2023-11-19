@@ -22,7 +22,8 @@ const PostStats = ({ post, userId }: PoststatsProps) => {
   const { mutate: savedPost, isPending: saveLoading } =
     useQueryToSavedPostMutation();
 
-  const { mutate: deleteSavedPost } = useQueryToDeleteSavedPostMutation();
+  const { mutate: deleteSavedPost, isPending: unSaveLoading } =
+    useQueryToDeleteSavedPostMutation();
 
   const likedList = post?.likes?.map((user: Models.Document) => user.$id);
 
@@ -88,7 +89,7 @@ const PostStats = ({ post, userId }: PoststatsProps) => {
         </p>
       </div>
       <div className="flex gap-2 items-center">
-        {saveLoading ? (
+        {saveLoading || unSaveLoading ? (
           <Loader />
         ) : (
           <img
