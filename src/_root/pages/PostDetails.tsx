@@ -65,7 +65,7 @@ const PostDetails = () => {
                   <p className="text-[16px] font-medium leading-[140%]">
                     {post?.creator.name}
                   </p>
-                  <div className="flex justify-start items-center gap-2 text-light-3">
+                  <div className="flex justify-start items-center gap-2 max-xs:flex-col max-xs:items-start max-xs:gap-0 text-light-3">
                     <p className="text-[12px] font-semibold leading-[140%] lg:text-[14px] lg:font-semibold lg:leading-[140%]">
                       {multiFormatDateString(post?.$createdAt)}
                     </p>

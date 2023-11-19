@@ -5,6 +5,9 @@ import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export const createUserAccount = async (user: INewUser) => {
     try {
+        const userAlreadyExist = await userExist(user.email);
+        if (userAlreadyExist) throw new Error('User already exists. Please login with your valid email and password');
+
         const newAccount = await account.create(
             ID.unique(),
             user.email,
@@ -26,10 +29,20 @@ export const createUserAccount = async (user: INewUser) => {
 
         return newUser;
     } catch (error) {
-        console.log(error);
         return error;
     }
 };
+
+export const userExist = async (email: string) => {
+    try {
+        const user = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.userCollectionId, [Query.equal('email', email)]);
+        return !!user;
+
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
 
 export const updateUserAccount = async (userDetails: IUpdateAccount) => {
     try {

@@ -66,7 +66,7 @@ const PostStats = ({ post, userId }: PoststatsProps) => {
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-1 items-center pr-2">
         {likeLoading ? (
           <Loader />
         ) : (

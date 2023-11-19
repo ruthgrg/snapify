@@ -44,7 +44,9 @@ const SigninForm = () => {
       });
 
       if (!session) {
-        toast({ title: "Something went wrong. Please login your new account" });
+        toast({
+          title: "Something went wrong. You've entered wrong email or password",
+        });
         navigate("/sign-in");
         return;
       }

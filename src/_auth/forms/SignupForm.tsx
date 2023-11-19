@@ -47,8 +47,10 @@ const SignupForm = () => {
     try {
       const newUser = await createUserAccount(values);
 
-      if (!newUser) {
-        return toast({ title: "sign up failed" });
+      if (newUser instanceof Error) {
+        toast({ title: newUser.message });
+        navigate("/sign-in");
+        return;
       }
 
       const session = await signInAccount({
@@ -57,7 +59,7 @@ const SignupForm = () => {
       });
 
       if (!session) {
-        toast({ title: "Something went wrong. Please login your new account" });
+        toast({ title: "Something went wrong. Please try again later" });
         navigate("/");
         return;
       }
@@ -68,7 +70,9 @@ const SignupForm = () => {
         form.reset();
         navigate("/home");
       } else {
-        return toast({ title: "sign up failed" });
+        return toast({
+          title: "sign up failed. You've entered wrong email or password",
+        });
       }
     } catch (error) {
       console.log(error);
