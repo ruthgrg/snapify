@@ -52,9 +52,16 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof postValidation>) {
+    const updatePostObject = {
+      caption: values.caption?.trim(),
+      file: values.file,
+      location: values.location?.trim(),
+      tags: values.tags?.trim(),
+    };
+
     if (post && action === "Update") {
       const updatedPost = await updatePost({
-        ...values,
+        ...updatePostObject,
         postId: post.$id,
         imageId: post?.imageId,
         imageUrl: post?.imageUrl,
@@ -65,9 +72,16 @@ const PostForm = ({ post, action }: PostFormProps) => {
       }
       return navigate(`/posts/${post.$id}`);
     }
-    const newPost = await createPost({
-      ...values,
+
+    const newPostObject = {
+      caption: values.caption?.trim(),
+      file: values.file,
+      location: values.location?.trim(),
+      tags: values.tags?.trim(),
       userId: userCtx.user.id,
+    };
+    const newPost = await createPost({
+      ...newPostObject,
     });
 
     if (!newPost) {

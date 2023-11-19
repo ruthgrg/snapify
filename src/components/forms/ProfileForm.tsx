@@ -42,8 +42,16 @@ const ProfileForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof profileValidation>) {
+    const updateProfileObject = {
+      file: values.file,
+      name: values.name.trim(),
+      username: values.username.trim(),
+      email: values.email.trim(),
+      bio: values.email.trim(),
+    };
+
     const updatedProfile = await updateProfile({
-      ...values,
+      ...updateProfileObject,
       userId: user.id,
       imageId: user.imageId,
       imageUrl: user.imageUrl,
