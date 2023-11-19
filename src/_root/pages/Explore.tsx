@@ -64,7 +64,7 @@ const Explore = () => {
         </div>
       </div>
 
-      <div className="bg-dark-4 flex flex-wrap gap-9 w-full max-w-5xl">
+      <div className="flex gap-9 w-full max-w-5xl">
         {shouldShowSearchResults ? (
           <SearchResults
             isSearchFetching={isSearchFetching}
