@@ -18,7 +18,7 @@ const Saved = () => {
 
   if (savedPosts?.documents.length === 0) {
     return (
-      <div className="flex justify-center items-center w-[100%] h-[100vh] xs:p-2rem">
+      <div className="flex justify-center items-center w-[100%] h-[100vh] max-md:items-start max-md:px-10 max-md:py-[200px] max-md:text-center">
         <p>Looks like there are no saved posts at the moment</p>
       </div>
     );
