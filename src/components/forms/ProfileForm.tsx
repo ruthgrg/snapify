@@ -17,12 +17,13 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../ui/shared/FileUploader";
 import { useQueryToUpdateProfileMutation } from "@/lib/react-query/queriesAndMutation";
 import { useNavigate } from "react-router-dom";
-import { toast } from "../ui/use-toast";
+import { toast } from "react-toastify";
 import { useUserContext } from "@/context/AuthContext";
 
 const ProfileForm = () => {
   const userCtx = useUserContext();
   const user = userCtx.user;
+
   const { mutateAsync: updateProfile, isPending } =
     useQueryToUpdateProfileMutation();
 
@@ -57,7 +58,7 @@ const ProfileForm = () => {
       imageUrl: user.imageUrl,
     });
 
-    if (!updatedProfile) return toast({ title: "Please try again" });
+    if (!updatedProfile) return toast("Please try again");
     userCtx.setUser({
       id: updatedProfile.$id,
       name: updatedProfile.name,

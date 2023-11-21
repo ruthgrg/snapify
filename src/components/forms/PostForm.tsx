@@ -20,7 +20,7 @@ import {
   useQueryCreatePostMutation,
   useQueryToUpdatePostMutation,
 } from "@/lib/react-query/queriesAndMutation";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 // This is the post we get from appwrite db when updating
@@ -36,7 +36,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
   const { mutateAsync: updatePost, isPending: updatePostPending } =
     useQueryToUpdatePostMutation();
 
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   // 1. Define your form.
@@ -68,7 +67,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       });
 
       if (!updatedPost) {
-        return toast({ title: "Please try again" });
+        return toast("Please try again");
       }
       return navigate(`/posts/${post.$id}`);
     }
@@ -85,7 +84,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     });
 
     if (!newPost) {
-      return toast({ title: "Please try again" });
+      return toast("Please try again");
     }
 
     return navigate("/");
