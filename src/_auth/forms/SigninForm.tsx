@@ -14,13 +14,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "react-toastify";
 import { userSigninMutation } from "@/lib/react-query/queriesAndMutation";
 import { useUserContext } from "@/context/AuthContext";
 
 const SigninForm = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const { mutateAsync: signInAccount, isPending: userLoadingPending } =
@@ -44,9 +43,7 @@ const SigninForm = () => {
       });
 
       if (!session) {
-        toast({
-          title: "Something went wrong. You've entered wrong email or password",
-        });
+        toast("Something went wrong. You've entered wrong email or password");
         navigate("/sign-in");
         return;
       }
@@ -57,7 +54,7 @@ const SigninForm = () => {
         form.reset();
         navigate("/home");
       } else {
-        return toast({ title: "sign in failed" });
+        return toast("sign in failed");
       }
     } catch (error) {
       console.log(error);

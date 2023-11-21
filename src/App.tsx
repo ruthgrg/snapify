@@ -14,7 +14,6 @@ import {
 import SignupForm from "./_auth/forms/SignupForm";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
-import { Toaster } from "@/components/ui/toaster";
 import CreatePost from "./_root/pages/CreatePost";
 import Entry from "./_auth/forms/Entry";
 import { useUserContext } from "./context/AuthContext";
@@ -22,6 +21,8 @@ import { Loader } from "lucide-react";
 import { HelmetProvider } from "react-helmet-async";
 import PageNotFound from "./_root/pages/PageNotFound";
 import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const helmetContext = {};
@@ -69,7 +70,18 @@ const App = () => {
             <Route path="*" element={<PageNotFound />} />
           </Routes>
 
-          <Toaster />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
         </main>
       </HelmetProvider>
     </Suspense>

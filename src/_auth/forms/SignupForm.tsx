@@ -15,7 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "react-toastify";
+
 import {
   userCreateAccountMutation,
   userSigninMutation,
@@ -24,7 +25,6 @@ import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const { mutateAsync: createUserAccount, isPending: isCreateAccountPending } =
     userCreateAccountMutation();
@@ -49,7 +49,7 @@ const SignupForm = () => {
       console.log("new user", newUser);
 
       if (newUser instanceof Error) {
-        toast({ title: newUser.message });
+        toast(newUser.message);
         navigate("/sign-in");
         return;
       }
@@ -60,7 +60,7 @@ const SignupForm = () => {
       });
 
       if (!session) {
-        toast({ title: "Something went wrong. Please try again later" });
+        toast("Something went wrong. Please try again later");
         navigate("/");
         return;
       }
@@ -71,9 +71,7 @@ const SignupForm = () => {
         form.reset();
         navigate("/home");
       } else {
-        return toast({
-          title: "sign up failed. You've entered wrong email or password",
-        });
+        return toast("sign up failed. You've entered wrong email or password");
       }
     } catch (error) {
       console.log(error);
