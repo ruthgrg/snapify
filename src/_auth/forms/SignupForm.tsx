@@ -46,6 +46,7 @@ const SignupForm = () => {
   const onSubmit = async (values: z.infer<typeof signupValidationSchema>) => {
     try {
       const newUser = await createUserAccount(values);
+      console.log("new user", newUser);
 
       if (newUser instanceof Error) {
         toast({ title: newUser.message });
