@@ -47,7 +47,7 @@ const ProfileForm = () => {
       name: values.name.trim(),
       username: values.username.trim(),
       email: values.email.trim(),
-      bio: values.email.trim(),
+      bio: values.bio.trim(),
     };
 
     const updatedProfile = await updateProfile({

@@ -10,7 +10,7 @@ const Home = () => {
 
   if (arePostsLoading) {
     return (
-      <div className="flex justify-center items-center w-[100%] h-[100vh]">
+      <div className="flex justify-center items-center w-[100%] max-md:mt-[100px]">
         <Loader />
       </div>
     );

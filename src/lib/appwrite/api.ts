@@ -352,6 +352,8 @@ export const updatePost = async (post: IUpdatePost) => {
 export const updateProfile = async (user: IUpdateProfile) => {
     const hasFileToUpdate = user.file.length > 0;
 
+    console.log(user)
+
     try {
 
         let image = {
