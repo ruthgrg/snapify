@@ -8,6 +8,7 @@ import {
 } from "@/lib/react-query/queriesAndMutation";
 import { multiFormatDateString } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -23,7 +24,10 @@ const PostDetails = () => {
       postId: post?.$id || "",
       imageId: post?.imageId,
     });
-    if (deletedPost) return navigate("/home");
+    if (deletedPost) {
+      toast("successfully deleted");
+      return navigate("/home");
+    }
   };
 
   if (isPostLoading) {
