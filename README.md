@@ -1,6 +1,6 @@
 # Snapify
 
-Snapify - Your Photo Sharing Hub
+Snapify - Photo Sharing Hub
 
 ## Overview
 
@@ -16,7 +16,7 @@ Snapify is a cool project inspired by Instagram, where you can create and edit y
 1. **Clone the project:**
 
    ```bash
-   git clone [https://github.com/ruthgrg/snapify.git]
+   git clone https://github.com/ruthgrg/snapify.git
    ```
 
 2. **Install dependencies:**
