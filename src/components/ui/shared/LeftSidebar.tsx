@@ -14,7 +14,7 @@ const LeftSidebar = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(0);
+      navigate("/signin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
