@@ -36,8 +36,8 @@ const AuthContexProvider = ({ children }: { children: React.ReactNode }) => {
     ) {
       navigate("/sign-in");
     }
-
     checkAuthUser();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
