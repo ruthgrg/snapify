@@ -112,7 +112,6 @@ export const getCurrentUser = async () => {
 export const signOutAccount = async () => {
     try {
         const session = await account.deleteSession("current");
-        console.log(session)
         return session;
     } catch (error) {
         console.log(error);
@@ -355,8 +354,6 @@ export const updatePost = async (post: IUpdatePost) => {
 export const updateProfile = async (user: IUpdateProfile) => {
     const hasFileToUpdate = user.file.length > 0;
 
-    console.log(user)
-
     try {
 
         let image = {
@@ -440,14 +437,12 @@ export const getInfinitePost = async ({
 }: {
     pageParams: number;
 }) => {
-    console.log('pageParams', pageParams)
     const queries = [Query.orderDesc("$updatedAt"), Query.limit(2)];
 
     if (pageParams) {
         queries.push(Query.cursorAfter(pageParams.toString()));
     }
 
-    console.log('queries', queries)
     try {
         const posts = await databases.listDocuments(
             appwriteConfig.databaseId,
