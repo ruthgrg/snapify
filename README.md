@@ -32,7 +32,7 @@ Snapify is a cool project inspired by Instagram, where you can create and edit y
 
 ## Live Demo
 
-Check out Snapify live on Netlify: [Snapify on Netlify](https://app-snapify.netlify.app/sign-in)
+Check out Snapify live on Netlify: [Snapify on Netlify](https://app-snapify.vercel.app/sign-in)
 
 ## Note
 
